@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function franco_enqueue_assets() {
 	// Google Fonts (Outfit & Plus Jakarta Sans)
-	wp_enqueue_style( 'franco-google-fonts', 'https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', array(), null );
+	wp_enqueue_style( 'franco-google-fonts', 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', array(), null );
 
 	// Font Awesome 6.5.1 CDN
 	wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', array(), '6.5.1' );
@@ -24,9 +24,6 @@ function franco_enqueue_assets() {
 
 	// Component classes (replace former inline styles); must load after the two sheets above
 	wp_enqueue_style( 'franco-components-css', FRANCO_THEME_URI . '/assets/css/components.css', array( 'franco-woocommerce-custom-css' ), FRANCO_THEME_VERSION );
-
-	// Theme Main Style
-	wp_enqueue_style( 'franco-theme-style', get_stylesheet_uri(), array( 'franco-custom-css', 'franco-woocommerce-custom-css', 'franco-components-css' ), FRANCO_THEME_VERSION );
 
 	// Enqueue jQuery (WordPress Core)
 	wp_enqueue_script( 'jquery' );

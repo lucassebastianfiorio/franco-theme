@@ -2,9 +2,7 @@
    FRANCO DEPORTES - TIENDA ONLINE DESIGN SYSTEM (MOBILE-FIRST)
    Optimizado para Smartphones, Tablets y Escritorio
    ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
+/* Google Fonts se encola vía wp_enqueue_style en inc/enqueue.php con preconnect */
 :root {
   /* Brand Accent Colors */
   --color-primary: #e63946;         /* Crimson Red */
