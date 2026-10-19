@@ -45,6 +45,7 @@ function franco_enqueue_assets() {
 
 		wp_localize_script( 'franco-woocommerce-js', 'franco_wc_params', array(
 			'ajax_url'          => admin_url( 'admin-ajax.php' ),
+			'rest_url'          => esc_url_raw( rest_url( 'franco/v1/' ) ),
 			'checkout_ajax_url' => WC_AJAX::get_endpoint( 'checkout' ),
 			'cart_url'          => wc_get_cart_url(),
 			'checkout_url'      => wc_get_checkout_url(),

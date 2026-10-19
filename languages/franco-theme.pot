@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Franco Deportes Theme 3.10.1\n"
+"Project-Id-Version: Franco Deportes Theme 4.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/franco-theme\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-19T22:28:55+00:00\n"
+"POT-Creation-Date: 2026-10-19T22:40:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: franco-theme\n"
@@ -90,7 +90,7 @@ msgid "Contacto"
 msgstr ""
 
 #: footer.php:81
-#: header.php:136
+#: header.php:134
 #: woocommerce/content-product.php:36
 msgid "Mis Favoritos"
 msgstr ""
@@ -116,12 +116,12 @@ msgid "¿A dónde enviamos tu compra?"
 msgstr ""
 
 #: footer.php:146
-#: header.php:122
+#: header.php:120
 msgid "Ayudanos a localizarte para verificar disponibilidad y cobertura en tu zona"
 msgstr ""
 
 #: footer.php:149
-#: header.php:125
+#: header.php:123
 msgid "Guardar"
 msgstr ""
 
@@ -214,78 +214,78 @@ msgstr ""
 msgid "Elegí tu código postal para envíos"
 msgstr ""
 
-#: header.php:113
+#: header.php:111
 #, php-format
 msgid "CP %s"
 msgstr ""
 
-#: header.php:113
+#: header.php:111
 msgid "CP"
 msgstr ""
 
-#: header.php:120
+#: header.php:118
 msgid "¿Dónde recibís tu compra?"
 msgstr ""
 
-#: header.php:131
+#: header.php:129
 msgid "Buscar productos"
 msgstr ""
 
-#: header.php:150
+#: header.php:148
 #, php-format
 msgid "Mi Cuenta (%s)"
 msgstr ""
 
-#: header.php:159
+#: header.php:157
 msgid "Mi Cuenta"
 msgstr ""
 
-#: header.php:160
+#: header.php:158
 #: woocommerce/myaccount/dashboard.php:48
 #: woocommerce/myaccount/orders.php:17
 msgid "Mis Compras"
 msgstr ""
 
-#: header.php:161
+#: header.php:159
 #: woocommerce/myaccount/my-address.php:39
 msgid "Mis Direcciones"
 msgstr ""
 
-#: header.php:162
+#: header.php:160
 #: woocommerce/myaccount/dashboard.php:78
 msgid "Datos y Contraseña"
 msgstr ""
 
-#: header.php:164
+#: header.php:162
 msgid "Cerrar Sesión"
 msgstr ""
 
-#: header.php:168
+#: header.php:166
 msgid "Mi Cuenta / Ingresar"
 msgstr ""
 
-#: header.php:173
+#: header.php:171
 msgid "¡Te damos la bienvenida!"
 msgstr ""
 
-#: header.php:174
+#: header.php:172
 msgid "Ingresá a tu cuenta para ver tus compras y gestionar tus datos."
 msgstr ""
 
-#: header.php:176
+#: header.php:174
 #: woocommerce/myaccount/form-login.php:37
 #: woocommerce/myaccount/form-login.php:90
 #: woocommerce/myaccount/form-login.php:91
 msgid "Iniciar Sesión"
 msgstr ""
 
-#: header.php:179
+#: header.php:177
 #: woocommerce/myaccount/form-login.php:40
 #: woocommerce/myaccount/form-login.php:156
 msgid "Crear Cuenta"
 msgstr ""
 
-#: header.php:187
+#: header.php:185
 msgid "Carrito de compras"
 msgstr ""
 
@@ -322,24 +322,24 @@ msgstr ""
 msgid "Guardar Cambios"
 msgstr ""
 
-#: inc/enqueue.php:57
+#: inc/enqueue.php:58
 msgid "¡Producto agregado al carrito!"
 msgstr ""
 
-#: inc/enqueue.php:58
+#: inc/enqueue.php:59
 #: inc/woocommerce.php:879
 msgid "Tu carrito está vacío."
 msgstr ""
 
-#: inc/enqueue.php:59
+#: inc/enqueue.php:60
 msgid "Ocurrió un error. Intenta nuevamente."
 msgstr ""
 
-#: inc/enqueue.php:60
+#: inc/enqueue.php:61
 msgid "Procesando tu pedido..."
 msgstr ""
 
-#: inc/enqueue.php:61
+#: inc/enqueue.php:62
 msgid "¿Deseas eliminar este producto?"
 msgstr ""
 
@@ -355,11 +355,22 @@ msgstr ""
 msgid "Menú Pie de Página"
 msgstr ""
 
-#: inc/security.php:59
+#: inc/rest-api.php:275
+#: inc/woocommerce.php:1194
+#, php-format
+msgid "Mostrando %d productos"
+msgstr ""
+
+#: inc/rest-api.php:359
+#: inc/woocommerce.php:1874
+msgid "Producto no disponible."
+msgstr ""
+
+#: inc/security.php:80
 msgid "Acceso restringido."
 msgstr ""
 
-#: inc/security.php:77
+#: inc/security.php:98
 msgid "Error: El usuario o la contraseña ingresados son incorrectos."
 msgstr ""
 
@@ -522,11 +533,6 @@ msgstr ""
 msgid "Prueba ajustando los filtros de búsqueda, categoría o marca."
 msgstr ""
 
-#: inc/woocommerce.php:1194
-#, php-format
-msgid "Mostrando %d productos"
-msgstr ""
-
 #: inc/woocommerce.php:1208
 msgid "Producto no encontrado."
 msgstr ""
@@ -576,10 +582,6 @@ msgstr ""
 
 #: inc/woocommerce.php:1869
 msgid "Código postal o producto no válido."
-msgstr ""
-
-#: inc/woocommerce.php:1874
-msgid "Producto no disponible."
 msgstr ""
 
 #: index.php:35

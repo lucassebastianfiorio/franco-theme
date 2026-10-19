@@ -106,10 +106,8 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 					<i class="fa-solid fa-location-dot"></i>
 					<span class="location-label-text" id="header-location-text">
 						<?php
-						$current_cp = ( class_exists( 'WooCommerce' ) && WC()->customer ) ? WC()->customer->get_shipping_postcode() : '';
-						if ( empty( $current_cp ) && ! empty( $_COOKIE['franco_postcode'] ) ) {
-							$current_cp = sanitize_text_field( wp_unslash( $_COOKIE['franco_postcode'] ) );
-						}
+						// Only prefill from session for logged-in users to keep anonymous HTML 100% cacheable
+						$current_cp = ( is_user_logged_in() && class_exists( 'WooCommerce' ) && WC()->customer ) ? WC()->customer->get_shipping_postcode() : '';
 						echo ! empty( $current_cp ) ? sprintf( esc_html__( 'CP %s', 'franco-theme' ), esc_html( $current_cp ) ) : esc_html__( 'CP', 'franco-theme' );
 						?>
 					</span>

@@ -198,34 +198,49 @@
         return;
       }
 
+      const restBase = franco_wc_params.rest_url ? franco_wc_params.rest_url + 'subcategories' : null;
+      const requestUrl = restBase ? (restBase + '?parent_category=' + encodeURIComponent(parentCat)) : franco_wc_params.ajax_url;
+      const requestType = restBase ? 'GET' : 'POST';
+      const requestData = restBase ? {} : { action: 'franco_get_subcategories', parent_category: parentCat };
+
+      function handleSubcatSuccess(response) {
+        if (response && response.success && response.data.subcategories && response.data.subcategories.length > 0) {
+          let optionsHtml = '<option value="all">Todas las Subcategorías</option>';
+          response.data.subcategories.forEach(function(sc) {
+            optionsHtml += `<option value="${escAttr(sc.slug)}">${escHtml(sc.name)}</option>`;
+          });
+          $select.html(optionsHtml);
+          if (selectedSubcat) {
+            $select.val(selectedSubcat);
+            activeSubcategory = selectedSubcat;
+          } else {
+            $select.val('all');
+          }
+          $wrap.css('display', 'block').show();
+        } else {
+          if ($wrap.length) $wrap.hide();
+          if ($select.length) $select.html('<option value="all">Todas las Subcategorías</option>').val('all');
+        }
+      }
+
       $.ajax({
-        url: franco_wc_params.ajax_url,
-        type: 'POST',
-        data: {
-          action: 'franco_get_subcategories',
-          parent_category: parentCat
-        },
-        success: function(response) {
-          if (response && response.success && response.data.subcategories && response.data.subcategories.length > 0) {
-            let optionsHtml = '<option value="all">Todas las Subcategorías</option>';
-            response.data.subcategories.forEach(function(sc) {
-              optionsHtml += `<option value="${escAttr(sc.slug)}">${escHtml(sc.name)}</option>`;
+        url: requestUrl,
+        type: requestType,
+        data: requestData,
+        success: handleSubcatSuccess,
+        error: function() {
+          if (restBase) {
+            // Fallback to admin-ajax
+            $.ajax({
+              url: franco_wc_params.ajax_url,
+              type: 'POST',
+              data: { action: 'franco_get_subcategories', parent_category: parentCat },
+              success: handleSubcatSuccess,
+              error: function() { if ($wrap.length) $wrap.hide(); }
             });
-            $select.html(optionsHtml);
-            if (selectedSubcat) {
-              $select.val(selectedSubcat);
-              activeSubcategory = selectedSubcat;
-            } else {
-              $select.val('all');
-            }
-            $wrap.css('display', 'block').show();
           } else {
             if ($wrap.length) $wrap.hide();
-            if ($select.length) $select.html('<option value="all">Todas las Subcategorías</option>').val('all');
           }
-        },
-        error: function() {
-          if ($wrap.length) $wrap.hide();
         }
       });
     }
@@ -985,46 +1000,68 @@
 
     const isHome = $('#inicio').length > 0;
 
-    $.ajax({
-      url: franco_wc_params.ajax_url,
-      type: 'POST',
-      data: {
-        action: 'franco_filter_products',
-        category: activeCategory,
-        subcategory: activeSubcategory,
-        brand: activeBrand,
-        talle: activeTalle,
-        sexo: activeSexo,
-        color: activeColor,
-        min_price: activeMinPrice,
-        max_price: activeMaxPrice,
-        sort_by: activeSortBy,
-        search: activeSearchTerm,
-        page: currentPage,
-        context: isHome ? 'home' : 'shop'
-      },
-      success: function(response) {
-        $grid.css('opacity', '1');
-        $('#infinite-scroll-loader').hide();
-        isLoadingProducts = false;
+    const restBase = franco_wc_params.rest_url ? franco_wc_params.rest_url + 'products' : null;
+    const requestUrl = restBase || franco_wc_params.ajax_url;
+    const requestType = restBase ? 'GET' : 'POST';
+    const filterPayload = {
+      category: activeCategory,
+      subcategory: activeSubcategory,
+      brand: activeBrand,
+      talle: activeTalle,
+      sexo: activeSexo,
+      color: activeColor,
+      min_price: activeMinPrice,
+      max_price: activeMaxPrice,
+      sort_by: activeSortBy,
+      search: activeSearchTerm,
+      page: currentPage,
+      context: isHome ? 'home' : 'shop'
+    };
+    if (!restBase) {
+      filterPayload.action = 'franco_filter_products';
+    }
 
-        if (response && response.success) {
-          if (isAppend) {
-            $grid.append(response.data.html);
-          } else {
-            $grid.html(response.data.html);
-          }
-          hasMoreProducts = !!response.data.has_more;
-          if (response.data.count) {
-            $('#result-count').text(response.data.count);
-          }
-          if (typeof updateWishlistUI === 'function') {
-            updateWishlistUI();
-          }
-          rearmInfiniteScroll();
+    function handleProductsSuccess(response) {
+      $grid.css('opacity', '1');
+      $('#infinite-scroll-loader').hide();
+      isLoadingProducts = false;
+
+      if (response && response.success) {
+        if (isAppend) {
+          $grid.append(response.data.html);
+        } else {
+          $grid.html(response.data.html);
         }
-      },
-      error: function() {
+        hasMoreProducts = !!response.data.has_more;
+        if (response.data.count) {
+          $('#result-count').text(response.data.count);
+        }
+        if (typeof updateWishlistUI === 'function') {
+          updateWishlistUI();
+        }
+        rearmInfiniteScroll();
+      }
+    }
+
+    function handleProductsError() {
+      if (restBase) {
+        // Fallback to admin-ajax.php
+        filterPayload.action = 'franco_filter_products';
+        $.ajax({
+          url: franco_wc_params.ajax_url,
+          type: 'POST',
+          data: filterPayload,
+          success: handleProductsSuccess,
+          error: function() {
+            $grid.css('opacity', '1');
+            $('#infinite-scroll-loader').hide();
+            isLoadingProducts = false;
+            if (isAppend && currentPage > 1) {
+              currentPage--;
+            }
+          }
+        });
+      } else {
         $grid.css('opacity', '1');
         $('#infinite-scroll-loader').hide();
         isLoadingProducts = false;
@@ -1032,6 +1069,14 @@
           currentPage--;
         }
       }
+    }
+
+    $.ajax({
+      url: requestUrl,
+      type: requestType,
+      data: filterPayload,
+      success: handleProductsSuccess,
+      error: handleProductsError
     });
   };
 
@@ -1084,102 +1129,121 @@
     `);
     $modalBackdrop.addClass('open');
 
+    const restBase = franco_wc_params.rest_url ? (franco_wc_params.rest_url + 'quick-view/' + productId) : null;
+    const requestUrl = restBase || franco_wc_params.ajax_url;
+    const requestType = restBase ? 'GET' : 'POST';
+    const requestData = restBase ? {} : { action: 'franco_get_quick_view_product', product_id: productId };
+
+    function renderQuickViewContent(p) {
+      const sizes = Array.isArray(p.sizes) ? p.sizes : [];
+      window.currentModalSize = sizes.length ? sizes[0].slug : '';
+
+      let sizesHTML = '';
+      if (sizes.length > 0) {
+        sizesHTML = sizes.map((s, idx) => `
+          <button type="button" class="size-btn ${idx === 0 ? 'active' : ''}" data-size="${escAttr(s.slug)}">${escHtml(s.name)}</button>
+        `).join('');
+      }
+
+      const galleryImages = (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : [p.image];
+      window.qvCurrentIndex = 0;
+      window.qvImages = galleryImages;
+
+      const galleryHTML = `
+        <div class="quick-view-carousel-wrap">
+          <div class="quick-view-carousel-viewport">
+            <div class="quick-view-carousel-track" id="quick-view-track" style="transform: translateX(0%);">
+              ${galleryImages.map(img => `
+                <div class="quick-view-slide">
+                  <img src="${escAttr(img)}" alt="${escAttr(p.name)}">
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          ${galleryImages.length > 1 ? `
+            <button type="button" class="qv-nav-btn prev" onclick="moveQuickViewSlide(-1)" aria-label="Anterior">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="qv-nav-btn next" onclick="moveQuickViewSlide(1)" aria-label="Siguiente">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <div class="qv-dots" id="quick-view-dots">
+              ${galleryImages.map((_, i) => `
+                <span class="qv-dot ${i === 0 ? 'active' : ''}" onclick="goToQuickViewSlide(${i})"></span>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      window.currentModalColor = '';
+      const colorsHTML = '';
+
+      $modalBody.html(`
+        <div class="quick-view-grid">
+          ${galleryHTML}
+          <div class="quick-view-details">
+            <span class="product-brand">${escHtml(p.brand)}</span>
+            <h2 class="product-name">${escHtml(p.name)}</h2>
+            ${p.item_code ? `<div class="product-detail-item-code">Item N° ${escHtml(p.item_code)}</div>` : ''}
+            <div class="product-price-row">
+              ${p.price_old ? `<span class="price-old">${escHtml(cleanPriceString(p.price_old))}</span>` : ''}
+              <span class="price-current">${escHtml(cleanPriceString(p.price))}</span>
+            </div>
+            ${p.description ? `<p class="quick-view-desc">${escHtml(p.description)}</p>` : ''}
+
+            ${colorsHTML}
+
+            ${sizesHTML ? `
+              <div style="margin-bottom: 14px;">
+                <label class="filter-label">Seleccionar Talle:</label>
+                <div class="size-selector" id="modal-size-selector">
+                  ${sizesHTML}
+                </div>
+              </div>
+            ` : ''}
+
+            <div class="quick-view-actions">
+              <button type="button" class="btn-primary quick-view-add-btn" data-product-id="${escAttr(p.id)}">
+                <i class="fa-solid fa-cart-shopping"></i> Agregar al Carrito
+              </button>
+              <a href="${escAttr(p.permalink)}" class="quick-view-detail-link">
+                <i class="fa-solid fa-eye"></i> Ver Detalle
+              </a>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    function handleQuickViewSuccess(response) {
+      if (response && response.success) {
+        renderQuickViewContent(response.data);
+      } else {
+        $modalBody.html('<div class="modal-error">Error al cargar producto.</div>');
+      }
+    }
+
     $.ajax({
-      url: franco_wc_params.ajax_url,
-      type: 'POST',
-      data: {
-        action: 'franco_get_quick_view_product',
-        product_id: productId
-      },
-      success: function(response) {
-        if (response && response.success) {
-          const p = response.data;
-          const sizes = Array.isArray(p.sizes) ? p.sizes : [];
-          window.currentModalSize = sizes.length ? sizes[0].slug : '';
-
-          let sizesHTML = '';
-          if (sizes.length > 0) {
-            sizesHTML = sizes.map((s, idx) => `
-              <button type="button" class="size-btn ${idx === 0 ? 'active' : ''}" data-size="${escAttr(s.slug)}">${escHtml(s.name)}</button>
-            `).join('');
-          }
-
-          const galleryImages = (Array.isArray(p.gallery) && p.gallery.length > 0) ? p.gallery : [p.image];
-          window.qvCurrentIndex = 0;
-          window.qvImages = galleryImages;
-
-          const galleryHTML = `
-            <div class="quick-view-carousel-wrap">
-              <div class="quick-view-carousel-viewport">
-                <div class="quick-view-carousel-track" id="quick-view-track" style="transform: translateX(0%);">
-                  ${galleryImages.map(img => `
-                    <div class="quick-view-slide">
-                      <img src="${escAttr(img)}" alt="${escAttr(p.name)}">
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-              ${galleryImages.length > 1 ? `
-                <button type="button" class="qv-nav-btn prev" onclick="moveQuickViewSlide(-1)" aria-label="Anterior">
-                  <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button type="button" class="qv-nav-btn next" onclick="moveQuickViewSlide(1)" aria-label="Siguiente">
-                  <i class="fa-solid fa-chevron-right"></i>
-                </button>
-                <div class="qv-dots" id="quick-view-dots">
-                  ${galleryImages.map((_, i) => `
-                    <span class="qv-dot ${i === 0 ? 'active' : ''}" onclick="goToQuickViewSlide(${i})"></span>
-                  `).join('')}
-                </div>
-              ` : ''}
-            </div>
-          `;
-
-          // Color no se muestra en el front.
-          window.currentModalColor = '';
-          const colorsHTML = '';
-
-          $modalBody.html(`
-            <div class="quick-view-grid">
-              ${galleryHTML}
-              <div class="quick-view-details">
-                <span class="product-brand">${escHtml(p.brand)}</span>
-                <h2 class="product-name">${escHtml(p.name)}</h2>
-                ${p.item_code ? `<div class="product-detail-item-code">Item N° ${escHtml(p.item_code)}</div>` : ''}
-                <div class="product-price-row">
-                  ${p.price_old ? `<span class="price-old">${escHtml(cleanPriceString(p.price_old))}</span>` : ''}
-                  <span class="price-current">${escHtml(cleanPriceString(p.price))}</span>
-                </div>
-                ${p.description ? `<p class="quick-view-desc">${escHtml(p.description)}</p>` : ''}
-
-                ${colorsHTML}
-
-                ${sizesHTML ? `
-                  <div style="margin-bottom: 14px;">
-                    <label class="filter-label">Seleccionar Talle:</label>
-                    <div class="size-selector" id="modal-size-selector">
-                      ${sizesHTML}
-                    </div>
-                  </div>
-                ` : ''}
-
-                <div class="quick-view-actions">
-                  <button type="button" class="btn-primary quick-view-add-btn" data-product-id="${escAttr(p.id)}">
-                    <i class="fa-solid fa-cart-shopping"></i> Agregar al Carrito
-                  </button>
-                  <a href="${escAttr(p.permalink)}" class="quick-view-detail-link">
-                    <i class="fa-solid fa-eye"></i> Ver Detalle
-                  </a>
-                </div>
-              </div>
-            </div>
-          `);
-        } else {
-          $modalBody.html('<div class="modal-error">Error al cargar producto.</div>');
-        }
-      },
+      url: requestUrl,
+      type: requestType,
+      data: requestData,
+      success: handleQuickViewSuccess,
       error: function() {
-        $modalBody.html('<div class="modal-error">Error de conexión.</div>');
+        if (restBase) {
+          // Fallback to admin-ajax
+          $.ajax({
+            url: franco_wc_params.ajax_url,
+            type: 'POST',
+            data: { action: 'franco_get_quick_view_product', product_id: productId },
+            success: handleQuickViewSuccess,
+            error: function() {
+              $modalBody.html('<div class="modal-error">Error de conexión.</div>');
+            }
+          });
+        } else {
+          $modalBody.html('<div class="modal-error">Error de conexión.</div>');
+        }
       }
     });
   };
@@ -1210,25 +1274,43 @@
       return;
     }
 
+    const restBase = franco_wc_params.rest_url ? franco_wc_params.rest_url + 'wishlist' : null;
+    const requestUrl = restBase ? (restBase + '?product_ids=' + encodeURIComponent(wishlistIds.join(','))) : franco_wc_params.ajax_url;
+    const requestType = restBase ? 'GET' : 'POST';
+    const requestData = restBase ? {} : { action: 'franco_get_wishlist_products', product_ids: wishlistIds };
+
+    function handleWishlistSuccess(response) {
+      if (response && response.success && response.data.html) {
+        $grid.html(response.data.html);
+        if (typeof updateWishlistUI === 'function') {
+          updateWishlistUI();
+        }
+      } else {
+        $grid.html(`
+          <div class="products-empty">
+            <p class="text-muted">No se encontraron productos favoritos guardados.</p>
+          </div>
+        `);
+      }
+    }
+
     $.ajax({
-      url: franco_wc_params.ajax_url,
-      type: 'POST',
-      data: {
-        action: 'franco_get_wishlist_products',
-        product_ids: wishlistIds
-      },
-      success: function(response) {
-        if (response && response.success && response.data.html) {
-          $grid.html(response.data.html);
-          if (typeof updateWishlistUI === 'function') {
-            updateWishlistUI();
-          }
-        } else {
-          $grid.html(`
-            <div class="products-empty">
-              <p class="text-muted">No se encontraron productos favoritos guardados.</p>
-            </div>
-          `);
+      url: requestUrl,
+      type: requestType,
+      data: requestData,
+      success: handleWishlistSuccess,
+      error: function() {
+        if (restBase) {
+          // Fallback to admin-ajax
+          $.ajax({
+            url: franco_wc_params.ajax_url,
+            type: 'POST',
+            data: { action: 'franco_get_wishlist_products', product_ids: wishlistIds },
+            success: handleWishlistSuccess,
+            error: function() {
+              $grid.html('<div class="products-empty"><p class="text-muted">Error al cargar favoritos.</p></div>');
+            }
+          });
         }
       }
     });
@@ -1497,41 +1579,56 @@
       return;
     }
 
-    liveSearchXhr = $.ajax({
-      url: franco_wc_params.ajax_url,
-      type: 'GET',
-      data: {
-        action: 'franco_live_search',
-        q: query.substring(0, 100)
-      },
-      success: function(response) {
-        if (response && response.success && response.data.results.length > 0) {
-          let html = '';
-          response.data.results.forEach(function(item) {
-            let priceDisplay = `<span class="live-price">${escHtml(cleanPriceString(item.price))}</span>`;
-            if (item.price_old) {
-              priceDisplay = `
-                <span class="live-price-old">${escHtml(cleanPriceString(item.price_old))}</span>
-                <span class="live-price">${escHtml(cleanPriceString(item.price))}</span>
-              `;
-            }
-            html += `
-              <a class="live-search-item live-search-link" href="${escAttr(item.permalink)}">
-                <img src="${escAttr(item.image)}" alt="${escAttr(item.name)}" width="45" height="45" loading="lazy" class="live-search-thumb">
-                <div class="flex-grow-1">
-                  <div class="live-search-name">${escHtml(item.name)}</div>
-                  <div class="live-search-prices">${priceDisplay}</div>
-                </div>
-              </a>
+    const sanitizedQuery = query.substring(0, 100);
+    const restBase = franco_wc_params.rest_url ? franco_wc_params.rest_url + 'search' : null;
+    const requestUrl = restBase ? (restBase + '?q=' + encodeURIComponent(sanitizedQuery)) : franco_wc_params.ajax_url;
+    const requestData = restBase ? {} : { action: 'franco_live_search', q: sanitizedQuery };
+
+    function handleSearchSuccess(response) {
+      if (response && response.success && response.data.results && response.data.results.length > 0) {
+        let html = '';
+        response.data.results.forEach(function(item) {
+          let priceDisplay = `<span class="live-price">${escHtml(cleanPriceString(item.price))}</span>`;
+          if (item.price_old) {
+            priceDisplay = `
+              <span class="live-price-old">${escHtml(cleanPriceString(item.price_old))}</span>
+              <span class="live-price">${escHtml(cleanPriceString(item.price))}</span>
             `;
+          }
+          html += `
+            <a class="live-search-item live-search-link" href="${escAttr(item.permalink || item.url)}">
+              <img src="${escAttr(item.image)}" alt="${escAttr(item.name || item.title)}" width="45" height="45" loading="lazy" class="live-search-thumb">
+              <div class="flex-grow-1">
+                <div class="live-search-name">${escHtml(item.name || item.title)}</div>
+                <div class="live-search-prices">${priceDisplay}</div>
+              </div>
+            </a>
+          `;
+        });
+        $resultsContainer.html(html);
+      } else {
+        $resultsContainer.html(`
+          <div class="search-no-results">
+            No se encontraron productos para "${escHtml(query)}"
+          </div>
+        `);
+      }
+    }
+
+    liveSearchXhr = $.ajax({
+      url: requestUrl,
+      type: 'GET',
+      data: requestData,
+      success: handleSearchSuccess,
+      error: function() {
+        if (restBase) {
+          // Fallback to admin-ajax
+          liveSearchXhr = $.ajax({
+            url: franco_wc_params.ajax_url,
+            type: 'GET',
+            data: { action: 'franco_live_search', q: sanitizedQuery },
+            success: handleSearchSuccess
           });
-          $resultsContainer.html(html);
-        } else {
-          $resultsContainer.html(`
-            <div class="search-no-results">
-              No se encontraron productos para "${escHtml(query)}"
-            </div>
-          `);
         }
       }
     });

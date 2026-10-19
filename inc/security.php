@@ -31,6 +31,27 @@ function franco_send_security_headers() {
 
 	// Legacy X-XSS-Protection
 	header( 'X-XSS-Protection: 1; mode=block' );
+
+	// HTTP Strict Transport Security (HSTS) when on HTTPS
+	if ( is_ssl() ) {
+		header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
+	}
+
+	// Content Security Policy (CSP) with payment gateways & external asset support
+	if ( ! is_admin() ) {
+		$csp = "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; " .
+			"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.mercadopago.com https://*.mercadolibre.com https://*.decidir.com https://*.payway.com.ar https://cdnjs.cloudflare.com; " .
+			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " .
+			"font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; " .
+			"img-src 'self' data: blob: https:; " .
+			"frame-src 'self' https://*.mercadopago.com https://*.mercadolibre.com https://*.decidir.com https://*.payway.com.ar; " .
+			"connect-src 'self' https:;";
+
+		$filtered_csp = apply_filters( 'franco_content_security_policy', $csp );
+		if ( ! empty( $filtered_csp ) ) {
+			header( 'Content-Security-Policy: ' . $filtered_csp );
+		}
+	}
 }
 add_action( 'send_headers', 'franco_send_security_headers' );
 
