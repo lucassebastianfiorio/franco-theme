@@ -10,12 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$ig_url   = franco_get_setting( 'franco_instagram_url', 'https://www.instagram.com/francodeportes' );
-$fb_url   = get_option( 'franco_facebook_url', '' );
-$tt_url   = get_option( 'franco_tiktok_url', '' );
-$phone    = franco_get_setting( 'franco_contact_phone', '+54 11 1234 5678' );
-$email    = franco_get_setting( 'franco_contact_email', 'ventas@francodeportes.com' );
-$logo_url = franco_get_setting( 'franco_footer_logo', 'https://francodeportes.com.ar/wp-content/uploads/2026/09/Logo-Franco-Deportes-Blanco-1.png' );
+$ig_url         = franco_get_setting( 'franco_instagram_url', '' );
+$fb_url         = get_option( 'franco_facebook_url', '' );
+$tt_url         = get_option( 'franco_tiktok_url', '' );
+$phone          = franco_get_setting( 'franco_contact_phone', '' );
+$email          = franco_get_setting( 'franco_contact_email', '' );
+$business_hours = franco_get_setting( 'franco_business_hours', '' );
+$logo_url       = franco_get_theme_logo_url( 'footer' );
 
 $nosotros_id  = get_option( 'franco_page_nosotros', 0 );
 $contacto_id  = get_option( 'franco_page_contacto', 0 );
@@ -47,15 +48,19 @@ if ( function_exists( 'franco_is_checkout_page' ) && franco_is_checkout_page() )
 			<p class="footer-about">
 				<?php esc_html_e( 'Tu tienda oficial de zapatillas deportivas, botines de fútbol e indumentaria técnica. Calidad, garantía y envíos a todo el país.', 'franco-theme' ); ?>
 			</p>
-			<div class="social-links">
-				<a href="<?php echo esc_url( $ig_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-				<?php if ( ! empty( $fb_url ) ) : ?>
-					<a href="<?php echo esc_url( $fb_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-				<?php endif; ?>
-				<?php if ( ! empty( $tt_url ) ) : ?>
-					<a href="<?php echo esc_url( $tt_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-				<?php endif; ?>
-			</div>
+			<?php if ( ! empty( $ig_url ) || ! empty( $fb_url ) || ! empty( $tt_url ) ) : ?>
+				<div class="social-links">
+					<?php if ( ! empty( $ig_url ) ) : ?>
+						<a href="<?php echo esc_url( $ig_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+					<?php endif; ?>
+					<?php if ( ! empty( $fb_url ) ) : ?>
+						<a href="<?php echo esc_url( $fb_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+					<?php endif; ?>
+					<?php if ( ! empty( $tt_url ) ) : ?>
+						<a href="<?php echo esc_url( $tt_url ); ?>" target="_blank" rel="noopener" class="social-icon-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="footer-col">
@@ -80,30 +85,36 @@ if ( function_exists( 'franco_is_checkout_page' ) && franco_is_checkout_page() )
 		</div>
 
 		<div class="footer-col">
-	<h4 class="footer-heading"><?php esc_html_e( 'Atención al Cliente', 'franco-theme' ); ?></h4>
-	<ul class="footer-contact-list footer-links">
-		<li>
-			<i class="fa-solid fa-location-dot footer-contact-icon"></i>
-			Av. Brig. Juan Manuel de Rosas 2525, BsAs
-		</li>
-		<li>
-			<i class="fa-solid fa-phone footer-contact-icon"></i>
-			<a class="footer-link" href="<?php echo esc_url( 'tel:' . preg_replace( '/[^0-9+]/', '', $phone ) ); ?>">
-				<?php echo esc_html( $phone ); ?>
-			</a>
-		</li>
-		<li>
-			<i class="fa-solid fa-envelope footer-contact-icon"></i>
-			<a class="footer-link" href="<?php echo esc_url( 'mailto:' . $email ); ?>">
-				<?php echo esc_html( $email ); ?>
-			</a>
-		</li>
-		<li>
-			<i class="fa-solid fa-clock footer-contact-icon"></i>
-			<?php echo esc_html( franco_get_setting( 'franco_business_hours', 'Lunes a Sábados de 09:00 a 20:00 hs.' ) ); ?>
-		</li>
-	</ul>
-</div>
+			<h4 class="footer-heading"><?php esc_html_e( 'Atención al Cliente', 'franco-theme' ); ?></h4>
+			<ul class="footer-contact-list footer-links">
+				<li>
+					<i class="fa-solid fa-location-dot footer-contact-icon"></i>
+					Av. Brig. Juan Manuel de Rosas 2525, BsAs
+				</li>
+				<?php if ( ! empty( $phone ) ) : ?>
+					<li>
+						<i class="fa-solid fa-phone footer-contact-icon"></i>
+						<a class="footer-link" href="<?php echo esc_url( 'tel:' . preg_replace( '/[^0-9+]/', '', $phone ) ); ?>">
+							<?php echo esc_html( $phone ); ?>
+						</a>
+					</li>
+				<?php endif; ?>
+				<?php if ( ! empty( $email ) ) : ?>
+					<li>
+						<i class="fa-solid fa-envelope footer-contact-icon"></i>
+						<a class="footer-link" href="<?php echo esc_url( 'mailto:' . $email ); ?>">
+							<?php echo esc_html( $email ); ?>
+						</a>
+					</li>
+				<?php endif; ?>
+				<?php if ( ! empty( $business_hours ) ) : ?>
+					<li>
+						<i class="fa-solid fa-clock footer-contact-icon"></i>
+						<?php echo esc_html( $business_hours ); ?>
+					</li>
+				<?php endif; ?>
+			</ul>
+		</div>
 
 		<div class="footer-col">
 			<h4 class="footer-heading"><?php esc_html_e( 'Medios de Pago', 'franco-theme' ); ?></h4>

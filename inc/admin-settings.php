@@ -30,28 +30,59 @@ add_action( 'admin_menu', 'franco_add_admin_menu' );
  * Register Settings in WordPress Options API
  */
 function franco_register_admin_settings() {
-	$text_settings = array(
+	// Flags binarios (0 o 1)
+	$flag_settings = array(
 		'franco_enable_topbar',
+		'franco_remove_last_word_product_title',
+	);
+	foreach ( $flag_settings as $setting ) {
+		register_setting( 'franco_settings_group', $setting, array(
+			'type'              => 'string',
+			'sanitize_callback' => function( $val ) {
+				return ( '1' === (string) $val ) ? '1' : '0';
+			},
+			'default'           => 'franco_enable_topbar' === $setting ? '1' : '0',
+		) );
+	}
+
+	// Textos estándar
+	$text_settings = array(
 		'franco_topbar_text_1',
 		'franco_topbar_text_2',
 		'franco_topbar_text_3',
-		'franco_whatsapp_number',
 		'franco_contact_phone',
-		'franco_bank_cbu',
 		'franco_bank_alias',
 		'franco_bank_name',
-		'franco_remove_last_word_product_title',
 		'franco_business_hours',
 	);
-
 	foreach ( $text_settings as $setting ) {
 		register_setting( 'franco_settings_group', $setting, array(
 			'type'              => 'string',
 			'sanitize_callback' => 'sanitize_text_field',
-			'default'           => 'franco_enable_topbar' === $setting ? '1' : '',
+			'default'           => '',
 		) );
 	}
 
+	// WhatsApp (solo números)
+	register_setting( 'franco_settings_group', 'franco_whatsapp_number', array(
+		'type'              => 'string',
+		'sanitize_callback' => function( $val ) {
+			return preg_replace( '/\D/', '', (string) $val );
+		},
+		'default'           => '',
+	) );
+
+	// CBU Bancario (solo números, hasta 22 dígitos)
+	register_setting( 'franco_settings_group', 'franco_bank_cbu', array(
+		'type'              => 'string',
+		'sanitize_callback' => function( $val ) {
+			$clean = preg_replace( '/\D/', '', (string) $val );
+			return substr( $clean, 0, 22 );
+		},
+		'default'           => '',
+	) );
+
+	// URLs de medios y redes sociales
 	$url_settings = array(
 		'franco_hero_banner_image',
 		'franco_store_banner_image',
@@ -62,12 +93,27 @@ function franco_register_admin_settings() {
 		'franco_footer_logo',
 		'franco_checkout_logo',
 	);
-
 	foreach ( $url_settings as $setting ) {
 		register_setting( 'franco_settings_group', $setting, array(
 			'type'              => 'string',
 			'sanitize_callback' => 'esc_url_raw',
 			'default'           => '',
+		) );
+	}
+
+	// IDs de adjuntos de medios (D3)
+	$media_id_settings = array(
+		'franco_header_logo_id',
+		'franco_footer_logo_id',
+		'franco_checkout_logo_id',
+		'franco_hero_banner_image_id',
+		'franco_store_banner_image_id',
+	);
+	foreach ( $media_id_settings as $setting ) {
+		register_setting( 'franco_settings_group', $setting, array(
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'default'           => 0,
 		) );
 	}
 
@@ -86,7 +132,6 @@ function franco_register_admin_settings() {
 		'franco_page_checkout',
 		'franco_page_myaccount',
 	);
-
 	foreach ( $page_settings as $setting ) {
 		register_setting( 'franco_settings_group', $setting, array(
 			'type'              => 'integer',
@@ -241,25 +286,30 @@ function franco_settings_page_render() {
 	}
 
 	$enable_topbar = franco_get_setting( 'franco_enable_topbar', '1' );
-	$topbar_1      = franco_get_setting( 'franco_topbar_text_1', 'Envíos a todo el país | GRATIS en compras > $80.000' );
-	$topbar_2     = franco_get_setting( 'franco_topbar_text_2', '3 y 6 Cuotas Sin Interés' );
-	$topbar_3     = franco_get_setting( 'franco_topbar_text_3', '15% OFF abonando por Transferencia / Efectivo' );
-	$whatsapp     = franco_get_setting( 'franco_whatsapp_number', '5491112345678' );
-	$phone        = franco_get_setting( 'franco_contact_phone', '+54 11 1234 5678' );
-	$email        = franco_get_setting( 'franco_contact_email', 'ventas@francodeportes.com' );
-	$hero_img         = franco_get_setting( 'franco_hero_banner_image', FRANCO_THEME_URI . '/assets/images/hero_banner.webp' );
+	$topbar_1      = franco_get_setting( 'franco_topbar_text_1', '' );
+	$topbar_2     = franco_get_setting( 'franco_topbar_text_2', '' );
+	$topbar_3     = franco_get_setting( 'franco_topbar_text_3', '' );
+	$whatsapp     = franco_get_setting( 'franco_whatsapp_number', '' );
+	$phone        = franco_get_setting( 'franco_contact_phone', '' );
+	$email        = franco_get_setting( 'franco_contact_email', '' );
+	$hero_img         = franco_get_setting( 'franco_hero_banner_image', '' );
+	$hero_img_id      = absint( franco_get_setting( 'franco_hero_banner_image_id', 0 ) );
 	$store_img        = franco_get_setting( 'franco_store_banner_image', '' );
-	$header_logo      = franco_get_setting( 'franco_header_logo', FRANCO_THEME_URI . '/assets/images/logo.webp' );
+	$store_img_id     = absint( franco_get_setting( 'franco_store_banner_image_id', 0 ) );
+	$header_logo      = franco_get_setting( 'franco_header_logo', '' );
+	$header_logo_id   = absint( franco_get_setting( 'franco_header_logo_id', 0 ) );
 	$footer_logo      = franco_get_setting( 'franco_footer_logo', '' );
+	$footer_logo_id   = absint( franco_get_setting( 'franco_footer_logo_id', 0 ) );
 	$checkout_logo    = franco_get_setting( 'franco_checkout_logo', '' );
+	$checkout_logo_id = absint( franco_get_setting( 'franco_checkout_logo_id', 0 ) );
 	$bank_cbu         = franco_get_setting( 'franco_bank_cbu', '' );
 	$bank_alias       = franco_get_setting( 'franco_bank_alias', '' );
-	$bank_name        = franco_get_setting( 'franco_bank_name', 'Franco Deportes S.R.L.' );
-	$instagram        = franco_get_setting( 'franco_instagram_url', 'https://instagram.com' );
-	$facebook         = franco_get_setting( 'franco_facebook_url', 'https://facebook.com' );
-	$tiktok           = franco_get_setting( 'franco_tiktok_url', 'https://tiktok.com' );
+	$bank_name        = franco_get_setting( 'franco_bank_name', '' );
+	$instagram        = franco_get_setting( 'franco_instagram_url', '' );
+	$facebook         = franco_get_setting( 'franco_facebook_url', '' );
+	$tiktok           = franco_get_setting( 'franco_tiktok_url', '' );
 	$remove_last_word = franco_get_setting( 'franco_remove_last_word_product_title', '0' );
-	$business_hours   = franco_get_setting( 'franco_business_hours', 'Lunes a Sábados de 09:00 a 20:00 hs.' );
+	$business_hours   = franco_get_setting( 'franco_business_hours', '' );
 
 	$page_nosotros  = get_option( 'franco_page_nosotros', 0 );
 	$page_contacto  = get_option( 'franco_page_contacto', 0 );
@@ -480,6 +530,7 @@ function franco_settings_page_render() {
 					<td>
 						<div style="display: flex; gap: 10px; align-items: center; max-width: 650px;">
 							<input type="text" id="franco_header_logo" name="franco_header_logo" value="<?php echo esc_attr( $header_logo ); ?>" class="large-text">
+							<input type="hidden" id="franco_header_logo_id" name="franco_header_logo_id" value="<?php echo esc_attr( $header_logo_id ); ?>">
 							<button type="button" class="button franco-upload-media-btn" data-target="#franco_header_logo">Subir / Seleccionar</button>
 						</div>
 						<p class="description">Logo principal para la cabecera del sitio.</p>
@@ -490,6 +541,7 @@ function franco_settings_page_render() {
 					<td>
 						<div style="display: flex; gap: 10px; align-items: center; max-width: 650px;">
 							<input type="text" id="franco_footer_logo" name="franco_footer_logo" value="<?php echo esc_attr( $footer_logo ); ?>" class="large-text">
+							<input type="hidden" id="franco_footer_logo_id" name="franco_footer_logo_id" value="<?php echo esc_attr( $footer_logo_id ); ?>">
 							<button type="button" class="button franco-upload-media-btn" data-target="#franco_footer_logo">Subir / Seleccionar</button>
 						</div>
 						<p class="description">Logo opcional para el pie de página. Si se deja en blanco, usará el logo del Header.</p>
@@ -500,6 +552,7 @@ function franco_settings_page_render() {
 					<td>
 						<div style="display: flex; gap: 10px; align-items: center; max-width: 650px;">
 							<input type="text" id="franco_checkout_logo" name="franco_checkout_logo" value="<?php echo esc_attr( $checkout_logo ); ?>" class="large-text">
+							<input type="hidden" id="franco_checkout_logo_id" name="franco_checkout_logo_id" value="<?php echo esc_attr( $checkout_logo_id ); ?>">
 							<button type="button" class="button franco-upload-media-btn" data-target="#franco_checkout_logo">Subir / Seleccionar</button>
 						</div>
 						<p class="description">Logo opcional para el checkout. Si se deja en blanco, usará el logo del Header.</p>
@@ -516,6 +569,7 @@ function franco_settings_page_render() {
 					<td>
 						<div style="display: flex; gap: 10px; align-items: center; max-width: 650px;">
 							<input type="text" id="franco_hero_banner_image" name="franco_hero_banner_image" value="<?php echo esc_attr( $hero_img ); ?>" class="large-text">
+							<input type="hidden" id="franco_hero_banner_image_id" name="franco_hero_banner_image_id" value="<?php echo esc_attr( $hero_img_id ); ?>">
 							<button type="button" class="button franco-upload-media-btn" data-target="#franco_hero_banner_image">Subir / Seleccionar</button>
 						</div>
 					</td>
@@ -525,6 +579,7 @@ function franco_settings_page_render() {
 					<td>
 						<div style="display: flex; gap: 10px; align-items: center; max-width: 650px;">
 							<input type="text" id="franco_store_banner_image" name="franco_store_banner_image" value="<?php echo esc_attr( $store_img ); ?>" class="large-text">
+							<input type="hidden" id="franco_store_banner_image_id" name="franco_store_banner_image_id" value="<?php echo esc_attr( $store_img_id ); ?>">
 							<button type="button" class="button franco-upload-media-btn" data-target="#franco_store_banner_image">Subir / Seleccionar</button>
 						</div>
 					</td>
@@ -605,7 +660,9 @@ function franco_settings_page_render() {
 	jQuery(document).ready(function($){
 		$('.franco-upload-media-btn').on('click', function(e){
 			e.preventDefault();
-			var targetInput = $( $(this).data('target') );
+			var targetSelector = $(this).data('target');
+			var targetInput = $( targetSelector );
+			var targetIdInput = $( targetSelector + '_id' );
 			var mediaFrame = wp.media({
 				title: 'Seleccionar Imagen',
 				button: { text: 'Usar esta imagen' },
@@ -614,6 +671,9 @@ function franco_settings_page_render() {
 			mediaFrame.on('select', function(){
 				var attachment = mediaFrame.state().get('selection').first().toJSON();
 				targetInput.val(attachment.url);
+				if (targetIdInput.length) {
+					targetIdInput.val(attachment.id);
+				}
 			});
 			mediaFrame.open();
 		});

@@ -116,10 +116,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 				}
 
 				// Display clean name (without last word if setting is on)
-				$clean_name = $raw_name;
-				if ( get_option( 'franco_hide_product_last_word', 'yes' ) === 'yes' && ! empty( $item_code ) ) {
-					$clean_name = preg_replace( '/\s+' . preg_quote( $item_code, '/' ) . '$/i', '', $clean_name );
-				}
+				$clean_name = ( '1' === (string) franco_get_setting( 'franco_remove_last_word_product_title', '0' ) && function_exists( 'franco_strip_last_word' ) ) ? franco_strip_last_word( $raw_name ) : $raw_name;
 				?>
 				<div class="franco-order-product-row">
 					<div class="product-thumb">

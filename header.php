@@ -34,7 +34,7 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 <header class="checkout-minimal-header">
 	<div class="container checkout-header-inner">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="checkout-logo-link">
-			<img src="<?php echo esc_url( franco_get_setting( 'franco_checkout_logo', franco_get_setting( 'franco_header_logo', 'https://francodeportes.com.ar/wp-content/uploads/2026/09/Logo-Franco-Deportes-Negro-1.png' ) ) ); ?>" alt="<?php esc_attr_e( 'Franco Deportes', 'franco-theme' ); ?>" class="checkout-logo-img">
+			<img src="<?php echo esc_url( franco_get_theme_logo_url( 'checkout' ) ); ?>" alt="<?php esc_attr_e( 'Franco Deportes', 'franco-theme' ); ?>" class="checkout-logo-img">
 		</a>
 		<a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/tienda' ) ); ?>" class="btn-secondary checkout-back-store-btn">
 			<i class="fa-solid fa-arrow-left"></i> <?php esc_html_e( 'Volver a la tienda', 'franco-theme' ); ?>

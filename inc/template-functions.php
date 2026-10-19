@@ -47,18 +47,48 @@ function franco_get_setting( $key, $default = '' ) {
 }
 
 /**
+ * Obtener URL de un logo del tema con fallback en cascada (ID -> URL -> Custom Logo -> Asset local).
+ *
+ * @param string $context 'header'|'checkout'|'footer'
+ * @return string URL del logo.
+ */
+function franco_get_theme_logo_url( $context = 'header' ) {
+	$id_key  = 'franco_' . $context . '_logo_id';
+	$url_key = 'franco_' . $context . '_logo';
+
+	$logo_id = absint( franco_get_setting( $id_key, 0 ) );
+	if ( $logo_id > 0 ) {
+		$img = wp_get_attachment_image_src( $logo_id, 'full' );
+		if ( $img ) {
+			return $img[0];
+		}
+	}
+
+	$url = (string) franco_get_setting( $url_key, '' );
+	if ( ! empty( $url ) ) {
+		return $url;
+	}
+
+	if ( 'header' !== $context ) {
+		return franco_get_theme_logo_url( 'header' );
+	}
+
+	if ( has_custom_logo() ) {
+		$custom_id = get_theme_mod( 'custom_logo' );
+		$img = wp_get_attachment_image_src( $custom_id, 'full' );
+		if ( $img ) {
+			return $img[0];
+		}
+	}
+
+	return FRANCO_THEME_URI . '/assets/images/logo.webp';
+}
+
+/**
  * Render Brand Logo or Site Title
  */
 function franco_render_site_logo() {
-	$header_logo = franco_get_setting( 'franco_header_logo', 'https://francodeportes.com.ar/wp-content/uploads/2026/09/Logo-Franco-Deportes-Negro-1.png' );
-	if ( ! empty( $header_logo ) ) {
-		$logo_url = $header_logo;
-	} elseif ( has_custom_logo() ) {
-		the_custom_logo();
-		return;
-	} else {
-		$logo_url = 'https://francodeportes.com.ar/wp-content/uploads/2026/09/Logo-Franco-Deportes-Negro-1.png';
-	}
+	$logo_url = franco_get_theme_logo_url( 'header' );
 
 	echo '<a href="' . esc_url( home_url( '/' ) ) . '" class="brand-logo-wrap">';
 	echo '<img src="' . esc_url( $logo_url ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" width="159" height="43" decoding="async">';
@@ -87,9 +117,23 @@ function franco_get_hero_image() {
 		'height' => 0,
 	);
 
-	$url = (string) franco_get_setting( 'franco_hero_banner_image', FRANCO_THEME_URI . '/assets/images/hero_banner.webp' );
+	$configured_id = absint( franco_get_setting( 'franco_hero_banner_image_id', 0 ) );
+	$url           = (string) franco_get_setting( 'franco_hero_banner_image', '' );
+
+	if ( $configured_id > 0 ) {
+		$image = wp_get_attachment_image_src( $configured_id, 'full' );
+		if ( $image ) {
+			$hero['id']     = $configured_id;
+			$hero['url']    = $image[0];
+			$hero['width']  = (int) $image[1];
+			$hero['height'] = (int) $image[2];
+			$hero['srcset'] = (string) wp_get_attachment_image_srcset( $configured_id, 'full' );
+			return $hero;
+		}
+	}
+
 	if ( '' === $url ) {
-		return $hero;
+		$url = FRANCO_THEME_URI . '/assets/images/hero_banner.webp';
 	}
 
 	$hero['url'] = $url;
