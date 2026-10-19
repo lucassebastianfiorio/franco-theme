@@ -25,6 +25,7 @@ require_once FRANCO_THEME_DIR . '/inc/admin-settings.php';
 require_once FRANCO_THEME_DIR . '/inc/template-functions.php';
 require_once FRANCO_THEME_DIR . '/inc/theme-updater.php';
 require_once FRANCO_THEME_DIR . '/inc/performance.php';
+require_once FRANCO_THEME_DIR . '/inc/security.php';
 
 // Load WooCommerce Integration if WooCommerce is Active
 if ( class_exists( 'WooCommerce' ) ) {
