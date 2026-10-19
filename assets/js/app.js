@@ -142,6 +142,9 @@ function setupUIEventListeners() {
 function openCartDrawer() {
   const backdrop = document.getElementById('cart-drawer-backdrop');
   if (backdrop) backdrop.classList.add('open');
+  if (typeof window.francoFetchCart === 'function') {
+    window.francoFetchCart();
+  }
 }
 
 function closeCartDrawer() {
@@ -260,35 +263,13 @@ function updateWishlistUI() {
     }
   });
 
-  // Calculate In-Stock items count via AJAX for navbar badge
+  // Update navbar wishlist badges synchronously from local wishlist
   const wishBadge = document.getElementById('fav-badge-count');
   if (wishBadge) {
-    if (wishlist.length === 0) {
-      wishBadge.textContent = '0';
-      const label = document.getElementById('wishlist-count-label');
-      if (label) label.textContent = '0';
-      return;
-    }
-
-    if (typeof jQuery !== 'undefined' && typeof franco_wc_params !== 'undefined') {
-      jQuery.ajax({
-        url: franco_wc_params.ajax_url,
-        type: 'POST',
-        data: {
-          action: 'franco_get_wishlist_count',
-          product_ids: wishlist
-        },
-        success: function(response) {
-          if (response && response.success) {
-            wishBadge.textContent = response.data.count;
-            const label = document.getElementById('wishlist-count-label');
-            if (label) label.textContent = response.data.count;
-          }
-        }
-      });
-    } else {
-      wishBadge.textContent = wishlist.length;
-    }
+    const count = String(wishlist.length);
+    wishBadge.textContent = count;
+    const label = document.getElementById('wishlist-count-label');
+    if (label) label.textContent = count;
   }
 }
 

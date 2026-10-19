@@ -66,9 +66,23 @@
     return rateId.indexOf('local_pickup') === 0 || rateId.indexOf('pickup_location') === 0;
   }
 
+  function francoHasCartItems() {
+    const match = document.cookie.match(/(?:^|;\s*)woocommerce_items_in_cart=([^;]*)/);
+    if (match && parseInt(match[1], 10) > 0) return true;
+    const badgeText = $('#cart-badge-count').text().trim();
+    return badgeText !== '' && parseInt(badgeText, 10) > 0;
+  }
+
   $(document).ready(function() {
-    // Initial fetch of WooCommerce Cart (also refreshes the AJAX nonce)
-    francoFetchCart();
+    // Sincronizar carrito solo si hay items o estamos en la página de checkout
+    if ($('#custom-franco-checkout-form').length > 0 || francoHasCartItems()) {
+      francoFetchCart();
+    }
+
+    // Al abrir el drawer del carrito manualmente, asegurar datos frescos
+    $(document).on('click', '#cart-btn', function() {
+      francoFetchCart();
+    });
 
     // Checkout: shipping method behaviour
     if ($('#custom-franco-checkout-form').length > 0) {
