@@ -317,22 +317,24 @@ add_filter( 'woocommerce_checkout_posted_data', 'franco_wc_filter_checkout_poste
  * @param string|int|float $talle Size string or number.
  * @return string Normalized size string.
  */
-function franco_normalize_talle( $talle ) {
-	if ( null === $talle || '' === $talle ) {
-		return '';
-	}
-
-	$talle_str = str_replace( ',', '.', trim( (string) $talle ) );
-
-	if ( ctype_digit( $talle_str ) ) {
-		$num = (int) $talle_str;
-		if ( $num >= 150 && $num <= 600 ) {
-			$norm = $num / 10;
-			return (string) (float) $norm;
+if ( ! function_exists( 'franco_normalize_talle' ) ) {
+	function franco_normalize_talle( $talle ) {
+		if ( null === $talle || '' === $talle ) {
+			return '';
 		}
-	}
 
-	return $talle_str;
+		$talle_str = str_replace( ',', '.', trim( (string) $talle ) );
+
+		if ( ctype_digit( $talle_str ) ) {
+			$num = (int) $talle_str;
+			if ( $num >= 150 && $num <= 600 ) {
+				$norm = $num / 10;
+				return (string) (float) $norm;
+			}
+		}
+
+		return $talle_str;
+	}
 }
 
 /**
@@ -1129,8 +1131,8 @@ function franco_wc_ajax_filter_products() {
 		);
 	}
 
-	// Ordering. On the home page, "popular" shows random products safely without SQL RAND(). On the shop, it uses catalog default order.
-	if ( 'home' === $context && 'popular' === $sort_by ) {
+	// Ordering. On the home page, "popular" without category shows random products safely without SQL RAND(). If category is filtered, sort by latest.
+	if ( 'home' === $context && 'popular' === $sort_by && ( empty( $category ) || 'all' === $category ) ) {
 		$home_ids = function_exists( 'franco_get_homepage_product_ids' ) ? franco_get_homepage_product_ids( 8 ) : array();
 		if ( ! empty( $home_ids ) ) {
 			$args['post__in'] = $home_ids;

@@ -359,18 +359,6 @@ function franco_cache_key( $prefix ) {
 }
 
 /**
- * Invalidate catalog transients when products are updated or changed.
- */
-function franco_invalidate_catalog_cache() {
-	$ver = (int) get_option( 'franco_catalog_cache_ver', 1 );
-	update_option( 'franco_catalog_cache_ver', $ver + 1, false );
-}
-add_action( 'woocommerce_update_product', 'franco_invalidate_catalog_cache' );
-add_action( 'woocommerce_new_product', 'franco_invalidate_catalog_cache' );
-add_action( 'woocommerce_product_set_stock_status', 'franco_invalidate_catalog_cache' );
-add_action( 'save_post_product', 'franco_invalidate_catalog_cache' );
-
-/**
  * Get product IDs for homepage showcase without using expensive ORDER BY RAND().
  *
  * @param int $limit Number of product IDs to retrieve.
@@ -425,6 +413,7 @@ function franco_get_visible_product_term_ids( $taxonomy = 'product_cat' ) {
 		return $cached;
 	}
 
+	$results      = array();
 	$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
 	$has_lookup   = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $lookup_table ) ) === $lookup_table;
 
@@ -437,11 +426,14 @@ function franco_get_visible_product_term_ids( $taxonomy = 'product_cat' ) {
 				 INNER JOIN {$lookup_table} ml ON tr.object_id = ml.product_id
 				 WHERE tt.taxonomy = %s
 				   AND ml.stock_status = 'instock'
-				   AND ml.min_price > 0",
+				   AND (ml.min_price > 0 OR ml.min_price IS NULL)",
 				$taxonomy
 			)
 		);
-	} else {
+	}
+
+	// Fallback exhaustivo si la tabla de lookup no existe o no arrojó resultados para esta taxonomía
+	if ( empty( $results ) ) {
 		$results = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT DISTINCT tt.term_id
@@ -574,6 +566,7 @@ function franco_get_min_max_prices() {
 
 	$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
 	$has_lookup   = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $lookup_table ) ) === $lookup_table;
+	$results      = null;
 
 	if ( $has_lookup ) {
 		$results = $wpdb->get_row(
@@ -584,7 +577,9 @@ function franco_get_min_max_prices() {
 			 WHERE stock_status = 'instock'
 			   AND min_price > 0"
 		);
-	} else {
+	}
+
+	if ( ! $results || null === $results->min_price || null === $results->max_price ) {
 		$results = $wpdb->get_row(
 			"SELECT 
 				MIN(CAST(pm_price.meta_value AS DECIMAL(10,2))) as min_price,
@@ -658,6 +653,32 @@ function franco_get_instock_terms( $taxonomy ) {
 
 	set_transient( $transient_key, $result, 2 * HOUR_IN_SECONDS );
 	return $result;
+}
+
+if ( ! function_exists( 'franco_normalize_talle' ) ) {
+	/**
+	 * Normalize size labels (e.g., 400 -> 40, "40,5" -> "40.5").
+	 *
+	 * @param mixed $talle Raw size string or number.
+	 * @return string Normalized size.
+	 */
+	function franco_normalize_talle( $talle ) {
+		if ( null === $talle || '' === $talle ) {
+			return '';
+		}
+
+		$talle_str = str_replace( ',', '.', trim( (string) $talle ) );
+
+		if ( ctype_digit( $talle_str ) ) {
+			$num = (int) $talle_str;
+			if ( $num >= 150 && $num <= 600 ) {
+				$norm = $num / 10;
+				return (string) (float) $norm;
+			}
+		}
+
+		return $talle_str;
+	}
 }
 
 /**
