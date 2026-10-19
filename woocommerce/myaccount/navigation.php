@@ -27,13 +27,13 @@ $endpoint_icons = array(
 do_action( 'woocommerce_before_account_navigation' );
 ?>
 
-<nav class="woocommerce-MyAccount-navigation franco-account-nav-card" aria-label="<?php esc_attr_e( 'Navegación de Mi Cuenta', 'franco' ); ?>">
+<nav class="woocommerce-MyAccount-navigation franco-account-nav-card" aria-label="<?php esc_attr_e( 'Navegación de Mi Cuenta', 'franco-theme' ); ?>">
 	<div class="franco-account-profile-header">
 		<div class="franco-account-avatar" aria-hidden="true">
 			<?php echo esc_html( $first_letter ); ?>
 		</div>
 		<div class="franco-account-profile-info">
-			<span class="franco-account-greeting"><?php esc_html_e( 'Hola,', 'franco' ); ?></span>
+			<span class="franco-account-greeting"><?php esc_html_e( 'Hola,', 'franco-theme' ); ?></span>
 			<h3 class="franco-account-name"><?php echo esc_html( $user_name ); ?></h3>
 			<span class="franco-account-email"><?php echo esc_html( $current_user->user_email ); ?></span>
 		</div>

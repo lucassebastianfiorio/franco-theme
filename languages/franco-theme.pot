@@ -1,0 +1,1620 @@
+# Copyright (C) 2026 Franco Deportes Team
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Franco Deportes Theme 3.9.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/franco-theme\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-19T22:02:47+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: franco-theme\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "Franco Deportes Theme"
+msgstr ""
+
+#. Theme URI of the theme
+#. Author URI of the theme
+#: style.css
+msgid "https://francodeportes.com"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Theme WordPress + WooCommerce 100% personalizado y nativo para Franco Deportes. Conserva la interfaz visual y la experiencia de usuario de la tienda HTML original utilizando WooCommerce como motor de ecommerce."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "Franco Deportes Team"
+msgstr ""
+
+#: 404.php:21
+msgid "PÁGINA NO ENCONTRADA"
+msgstr ""
+
+#: 404.php:24
+msgid "Lo sentimos, la página que buscas no existe o ha sido movida."
+msgstr ""
+
+#: 404.php:27
+msgid "Volver a la Tienda"
+msgstr ""
+
+#: footer.php:33
+msgid "Todos los derechos reservados. Checkout 100% Seguro."
+msgstr ""
+
+#: footer.php:47
+#: header.php:37
+#: inc/admin-settings.php:19
+msgid "Franco Deportes"
+msgstr ""
+
+#: footer.php:49
+msgid "Tu tienda oficial de zapatillas deportivas, botines de fútbol e indumentaria técnica. Calidad, garantía y envíos a todo el país."
+msgstr ""
+
+#: footer.php:67
+msgid "Navegación"
+msgstr ""
+
+#: footer.php:77
+#: inc/menus.php:43
+#: inc/template-functions.php:260
+msgid "Inicio"
+msgstr ""
+
+#: footer.php:78
+#: inc/menus.php:44
+#: inc/template-functions.php:263
+#: inc/template-functions.php:266
+msgid "Tienda"
+msgstr ""
+
+#: footer.php:79
+#: inc/menus.php:45
+msgid "Nosotros"
+msgstr ""
+
+#. Template Name of the theme
+#: footer.php:80
+#: inc/menus.php:46
+msgid "Contacto"
+msgstr ""
+
+#: footer.php:81
+#: header.php:136
+#: woocommerce/content-product.php:36
+msgid "Mis Favoritos"
+msgstr ""
+
+#: footer.php:88
+msgid "Atención al Cliente"
+msgstr ""
+
+#: footer.php:120
+msgid "Medios de Pago"
+msgstr ""
+
+#: footer.php:131
+msgid "Todos los derechos reservados. Desarrollado con WordPress + WooCommerce."
+msgstr ""
+
+#: footer.php:139
+msgid "Ingresar código postal"
+msgstr ""
+
+#: footer.php:145
+msgid "¿A dónde enviamos tu compra?"
+msgstr ""
+
+#: footer.php:146
+#: header.php:122
+msgid "Ayudanos a localizarte para verificar disponibilidad y cobertura en tu zona"
+msgstr ""
+
+#: footer.php:149
+#: header.php:125
+msgid "Guardar"
+msgstr ""
+
+#: footer.php:152
+#: woocommerce/single-product.php:314
+msgid "Cerrar"
+msgstr ""
+
+#: footer.php:152
+msgid "Recordar más tarde"
+msgstr ""
+
+#: front-page.php:23
+msgid "Nueva Colección 2026"
+msgstr ""
+
+#: front-page.php:29
+msgid "Equípate con lo mejor en calzado deportivo, botines de fútbol e indumentaria técnica de alto rendimiento."
+msgstr ""
+
+#: front-page.php:34
+msgid "Ver Catálogo Completo"
+msgstr ""
+
+#: front-page.php:46
+msgid "Modelos en tendencia con disponibilidad inmediata y envío rápido."
+msgstr ""
+
+#: front-page.php:50
+msgid "Explorar Tienda"
+msgstr ""
+
+#: front-page.php:56
+msgid "Todos los Productos"
+msgstr ""
+
+#: front-page.php:72
+msgid "Ofertas / Outlet"
+msgstr ""
+
+#: front-page.php:101
+msgid "No hay productos disponibles en stock."
+msgstr ""
+
+#: front-page.php:111
+msgid "Ir a la Tienda"
+msgstr ""
+
+#: front-page.php:122
+msgid "Envíos a Todo el País"
+msgstr ""
+
+#: front-page.php:123
+msgid "Despachos en 24h hábiles"
+msgstr ""
+
+#: front-page.php:130
+msgid "3 y 6 Cuotas Sin Interés"
+msgstr ""
+
+#: front-page.php:131
+msgid "Con todas las tarjetas"
+msgstr ""
+
+#: front-page.php:138
+msgid "Garantía de Fábrica"
+msgstr ""
+
+#: front-page.php:139
+msgid "Productos 100% originales"
+msgstr ""
+
+#: front-page.php:146
+msgid "Cambios sin Cargo"
+msgstr ""
+
+#: front-page.php:147
+msgid "30 días para cambio de talle"
+msgstr ""
+
+#: header.php:40
+msgid "Volver a la tienda"
+msgstr ""
+
+#: header.php:82
+msgid "Abrir menú de navegación"
+msgstr ""
+
+#: header.php:105
+msgid "Elegí tu código postal para envíos"
+msgstr ""
+
+#: header.php:113
+#, php-format
+msgid "CP %s"
+msgstr ""
+
+#: header.php:113
+msgid "CP"
+msgstr ""
+
+#: header.php:120
+msgid "¿Dónde recibís tu compra?"
+msgstr ""
+
+#: header.php:131
+msgid "Buscar productos"
+msgstr ""
+
+#: header.php:150
+#, php-format
+msgid "Mi Cuenta (%s)"
+msgstr ""
+
+#: header.php:159
+msgid "Mi Cuenta"
+msgstr ""
+
+#: header.php:160
+#: woocommerce/myaccount/dashboard.php:48
+#: woocommerce/myaccount/orders.php:17
+msgid "Mis Compras"
+msgstr ""
+
+#: header.php:161
+#: woocommerce/myaccount/my-address.php:39
+msgid "Mis Direcciones"
+msgstr ""
+
+#: header.php:162
+#: woocommerce/myaccount/dashboard.php:78
+msgid "Datos y Contraseña"
+msgstr ""
+
+#: header.php:164
+msgid "Cerrar Sesión"
+msgstr ""
+
+#: header.php:168
+msgid "Mi Cuenta / Ingresar"
+msgstr ""
+
+#: header.php:173
+msgid "¡Te damos la bienvenida!"
+msgstr ""
+
+#: header.php:174
+msgid "Ingresá a tu cuenta para ver tus compras y gestionar tus datos."
+msgstr ""
+
+#: header.php:176
+#: woocommerce/myaccount/form-login.php:37
+#: woocommerce/myaccount/form-login.php:90
+#: woocommerce/myaccount/form-login.php:91
+msgid "Iniciar Sesión"
+msgstr ""
+
+#: header.php:179
+#: woocommerce/myaccount/form-login.php:40
+#: woocommerce/myaccount/form-login.php:156
+msgid "Crear Cuenta"
+msgstr ""
+
+#: header.php:187
+msgid "Carrito de compras"
+msgstr ""
+
+#: inc/admin-settings.php:18
+msgid "Franco Deportes - Ajustes"
+msgstr ""
+
+#: inc/admin-settings.php:280
+#, php-format
+msgid "Se han creado y verificado las páginas del sitio (%d páginas creadas/asociadas)."
+msgstr ""
+
+#: inc/admin-settings.php:285
+msgid "Ajustes guardados y sincronizados correctamente con WooCommerce."
+msgstr ""
+
+#: inc/admin-settings.php:326
+msgid "Panel de Configuración - Franco Deportes"
+msgstr ""
+
+#: inc/admin-settings.php:362
+#: inc/admin-settings.php:376
+#: inc/admin-settings.php:391
+#: inc/admin-settings.php:406
+#: inc/admin-settings.php:420
+#: inc/admin-settings.php:434
+#: inc/admin-settings.php:448
+msgid "-- Seleccionar Página --"
+msgstr ""
+
+#: inc/admin-settings.php:655
+#: woocommerce/myaccount/form-edit-account.php:124
+#: woocommerce/myaccount/form-edit-account.php:125
+msgid "Guardar Cambios"
+msgstr ""
+
+#: inc/enqueue.php:57
+msgid "¡Producto agregado al carrito!"
+msgstr ""
+
+#: inc/enqueue.php:58
+#: inc/woocommerce.php:877
+msgid "Tu carrito está vacío."
+msgstr ""
+
+#: inc/enqueue.php:59
+msgid "Ocurrió un error. Intenta nuevamente."
+msgstr ""
+
+#: inc/enqueue.php:60
+msgid "Procesando tu pedido..."
+msgstr ""
+
+#: inc/enqueue.php:61
+msgid "¿Deseas eliminar este producto?"
+msgstr ""
+
+#: inc/menus.php:15
+msgid "Menú Principal Navegación"
+msgstr ""
+
+#: inc/menus.php:16
+msgid "Menú Móvil Navigation"
+msgstr ""
+
+#: inc/menus.php:17
+msgid "Menú Pie de Página"
+msgstr ""
+
+#: inc/security.php:59
+msgid "Acceso restringido."
+msgstr ""
+
+#: inc/security.php:77
+msgid "Error: El usuario o la contraseña ingresados son incorrectos."
+msgstr ""
+
+#: inc/template-functions.php:220
+#, php-format
+msgid "DESCUENTO %d%%"
+msgstr ""
+
+#: inc/template-functions.php:222
+msgid "OFERTA"
+msgstr ""
+
+#: inc/template-functions.php:226
+msgid "MÁS VENDIDO"
+msgstr ""
+
+#: inc/template-functions.php:229
+msgid "NUEVO"
+msgstr ""
+
+#: inc/theme-updater.php:109
+msgid "Actualización del tema Franco Deportes disponible en GitHub."
+msgstr ""
+
+#: inc/theme-updater.php:214
+msgid "Tema oficial de Franco Deportes con soporte nativo de WooCommerce."
+msgstr ""
+
+#: inc/theme-updater.php:215
+msgid "Mejoras y correcciones generales."
+msgstr ""
+
+#: inc/theme-updater.php:260
+msgid "No se pudo renombrar la carpeta del tema descargada desde GitHub."
+msgstr ""
+
+#: inc/widgets.php:14
+msgid "Sidebar de Tienda (Filtros)"
+msgstr ""
+
+#: inc/widgets.php:16
+msgid "Widgets visibles en el lateral de la tienda."
+msgstr ""
+
+#: inc/widgets.php:24
+msgid "Pie de Página - Columna 1"
+msgstr ""
+
+#: inc/widgets.php:26
+msgid "Widgets para la primera columna del footer."
+msgstr ""
+
+#: inc/widgets.php:34
+msgid "Pie de Página - Columna 2"
+msgstr ""
+
+#: inc/widgets.php:36
+msgid "Widgets para la segunda columna del footer."
+msgstr ""
+
+#: inc/woocommerce.php:36
+msgid "Por favor ingresa tu DNI o CUIT."
+msgstr ""
+
+#: inc/woocommerce.php:57
+msgid "El CUIT/CUIL ingresado no es válido."
+msgstr ""
+
+#: inc/woocommerce.php:60
+msgid "El DNI debe tener 7 u 8 dígitos, o el CUIT debe tener 11 dígitos válidos."
+msgstr ""
+
+#: inc/woocommerce.php:66
+#: inc/woocommerce.php:166
+#: woocommerce/myaccount/form-edit-account.php:55
+msgid "DNI / CUIT"
+msgstr ""
+
+#: inc/woocommerce.php:67
+msgid "Ej: 38.123.456"
+msgstr ""
+
+#: inc/woocommerce.php:129
+#: inc/woocommerce.php:138
+msgid "DNI / CUIT:"
+msgstr ""
+
+#: inc/woocommerce.php:146
+#: inc/woocommerce.php:183
+msgid "DNI / CUIT (Franco Theme)"
+msgstr ""
+
+#: inc/woocommerce.php:162
+msgid "Perfil de Usuario"
+msgstr ""
+
+#: inc/woocommerce.php:599
+msgid "No requiere envío"
+msgstr ""
+
+#: inc/woocommerce.php:611
+#: inc/woocommerce.php:1769
+#: inc/woocommerce.php:1934
+msgid "GRATIS"
+msgstr ""
+
+#: inc/woocommerce.php:624
+msgid "Carrito de WooCommerce no disponible."
+msgstr ""
+
+#: inc/woocommerce.php:636
+msgid "Único"
+msgstr ""
+
+#: inc/woocommerce.php:700
+msgid "ID de producto no válido."
+msgstr ""
+
+#: inc/woocommerce.php:705
+#: inc/woocommerce.php:1211
+msgid "Producto no válido."
+msgstr ""
+
+#: inc/woocommerce.php:717
+#: inc/woocommerce.php:727
+msgid "Seleccioná un talle válido."
+msgstr ""
+
+#: inc/woocommerce.php:759
+msgid "Validación de producto fallida."
+msgstr ""
+
+#: inc/woocommerce.php:772
+msgid "No se pudo agregar el producto al carrito."
+msgstr ""
+
+#: inc/woocommerce.php:802
+#: inc/woocommerce.php:807
+msgid "Clave de ítem no válida."
+msgstr ""
+
+#: inc/woocommerce.php:847
+msgid "Clave de carrito inválida."
+msgstr ""
+
+#: inc/woocommerce.php:864
+msgid "No se pudo vaciar el carrito."
+msgstr ""
+
+#: inc/woocommerce.php:887
+msgid "Método de envío no válido."
+msgstr ""
+
+#: inc/woocommerce.php:1180
+#: woocommerce/archive-product.php:267
+msgid "No se encontraron productos disponibles"
+msgstr ""
+
+#: inc/woocommerce.php:1181
+msgid "Prueba ajustando los filtros de búsqueda, categoría o marca."
+msgstr ""
+
+#: inc/woocommerce.php:1192
+#, php-format
+msgid "Mostrando %d productos"
+msgstr ""
+
+#: inc/woocommerce.php:1206
+msgid "Producto no encontrado."
+msgstr ""
+
+#: inc/woocommerce.php:1446
+msgid "El registro de nuevas cuentas está deshabilitado en este momento."
+msgstr ""
+
+#: inc/woocommerce.php:1452
+msgid "Error al procesar la solicitud. Por favor intenta nuevamente."
+msgstr ""
+
+#: inc/woocommerce.php:1462
+msgid "Envío demasiado rápido. Por favor intenta nuevamente."
+msgstr ""
+
+#: inc/woocommerce.php:1584
+#: inc/woocommerce.php:1597
+#: inc/woocommerce.php:1646
+msgid "Item N°"
+msgstr ""
+
+#: inc/woocommerce.php:1663
+#: woocommerce/checkout/thankyou.php:89
+#: woocommerce/content-product.php:83
+#: woocommerce/myaccount/view-order.php:134
+#: woocommerce/single-product.php:155
+#, php-format
+msgid "Item N° %s"
+msgstr ""
+
+#: inc/woocommerce.php:1783
+msgid "Ingresá tu código postal para cotizar las opciones de envío disponibles con Andreani y Correo."
+msgstr ""
+
+#: inc/woocommerce.php:1789
+msgid "No hay métodos de envío disponibles para tu zona. Contactanos por WhatsApp."
+msgstr ""
+
+#: inc/woocommerce.php:1795
+msgid "Tu pedido no requiere envío."
+msgstr ""
+
+#: inc/woocommerce.php:1813
+msgid "Por favor ingresá un código postal argentino válido (ej: 1414)."
+msgstr ""
+
+#: inc/woocommerce.php:1867
+msgid "Código postal o producto no válido."
+msgstr ""
+
+#: inc/woocommerce.php:1872
+msgid "Producto no disponible."
+msgstr ""
+
+#: index.php:35
+msgid "No se encontraron publicaciones."
+msgstr ""
+
+#: page-contacto.php:25
+msgid "Estamos para ayudarte"
+msgstr ""
+
+#: page-contacto.php:28
+msgid "CONTACTATE CON NOSOTROS"
+msgstr ""
+
+#: page-contacto.php:31
+msgid "Resuelve tus dudas sobre talles, stock en sucursal, envíos o medios de pago en minutos."
+msgstr ""
+
+#: page-contacto.php:42
+msgid "INFORMACIÓN DE CONTACTO"
+msgstr ""
+
+#: page-contacto.php:51
+msgid "Sucursal Comercial"
+msgstr ""
+
+#: page-contacto.php:52
+msgid "Av. Brig. Juan Manuel de Rosas 2525, José León Suárez, Buenos Aires."
+msgstr ""
+
+#: page-contacto.php:61
+msgid "Atención por WhatsApp"
+msgstr ""
+
+#: page-contacto.php:64
+msgid "Iniciar Chat por WhatsApp"
+msgstr ""
+
+#: page-contacto.php:74
+#: woocommerce/myaccount/form-edit-account.php:65
+msgid "Correo Electrónico"
+msgstr ""
+
+#: page-contacto.php:81
+msgid "Redes Oficiales"
+msgstr ""
+
+#: page-contacto.php:92
+msgid "Enviar Mensaje Directo"
+msgstr ""
+
+#: page-contacto.php:97
+msgid "Nombre Completo *"
+msgstr ""
+
+#: page-contacto.php:98
+msgid "Tu nombre..."
+msgstr ""
+
+#: page-contacto.php:102
+#: woocommerce/checkout/form-checkout.php:229
+msgid "Correo Electrónico *"
+msgstr ""
+
+#: page-contacto.php:107
+msgid "Teléfono / WhatsApp"
+msgstr ""
+
+#: page-contacto.php:112
+msgid "Mensaje o Consulta *"
+msgstr ""
+
+#: page-contacto.php:113
+msgid "Escribe tu consulta sobre talles, stock o envíos..."
+msgstr ""
+
+#: page-contacto.php:117
+msgid "Enviar Consulta por WhatsApp"
+msgstr ""
+
+#: page-favoritos.php:24
+msgid "Mis Productos Favoritos"
+msgstr ""
+
+#: page-favoritos.php:27
+msgid "Guarda tus productos preferidos para comprarlos cuando quieras."
+msgstr ""
+
+#: page-favoritos.php:36
+msgid "productos guardados disponibles"
+msgstr ""
+
+#: page-favoritos.php:39
+msgid "Vaciar Favoritos"
+msgstr ""
+
+#: page-favoritos.php:46
+msgid "Cargando tus productos favoritos..."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Nosotros (Sobre Nosotros)"
+msgstr ""
+
+#: page-nosotros.php:22
+msgid "Nuestra Historia"
+msgstr ""
+
+#: page-nosotros.php:25
+msgid "SOBRE FRANCO DEPORTES"
+msgstr ""
+
+#: page-nosotros.php:28
+msgid "Más que una tienda deportiva: una comunidad apasionada por el rendimiento, la moda urbana y el deporte."
+msgstr ""
+
+#: page-nosotros.php:38
+msgid "Desde José León Suárez al país"
+msgstr ""
+
+#: page-nosotros.php:41
+msgid "PASIÓN, CALIDAD Y COMPROMISO CON EL DEPORTISTA"
+msgstr ""
+
+#: page-nosotros.php:49
+msgid "Nacimos con una misión clara: acercar el mejor calzado e indumentaria deportiva a cada atleta y aficionado. Ubicados en Av. Brig. Juan Manuel de Rosas 2525, José León Suárez, nos hemos consolidado como un referente regional gracias a la atención personalizada y la autenticidad garantizada en cada producto."
+msgstr ""
+
+#: page-nosotros.php:50
+msgid "Trabajamos únicamente con marcas oficiales y distribuidores verificados. Nuestro equipo está compuesto por deportistas y amantes del entrenamiento que entienden exactamente lo que necesitas para tu disciplina."
+msgstr ""
+
+#: page-nosotros.php:58
+msgid "Productos Originales"
+msgstr ""
+
+#: page-nosotros.php:62
+msgid "Clientes Satisfechos"
+msgstr ""
+
+#: page-nosotros.php:68
+msgid "Franco Deportes Store"
+msgstr ""
+
+#: page-nosotros.php:78
+msgid "Lo que nos define en cada interacción y venta"
+msgstr ""
+
+#: page-nosotros.php:87
+msgid "Garantía de Autenticidad"
+msgstr ""
+
+#: page-nosotros.php:88
+msgid "Todos nuestros botines, zapatillas y prendas cuentan con garantía oficial de marca."
+msgstr ""
+
+#: page-nosotros.php:97
+msgid "Asesoramiento Real"
+msgstr ""
+
+#: page-nosotros.php:98
+msgid "Te ayudamos a elegir el talle exacto y el calzado según tu superficie de juego o pisada."
+msgstr ""
+
+#: page-nosotros.php:107
+msgid "Cambios sin Complicaciones"
+msgstr ""
+
+#: page-nosotros.php:108
+msgid "¿No te quedó el talle? Realizamos el cambio de manera rápida y sencilla."
+msgstr ""
+
+#: template-parts/components/quick-view-modal.php:15
+msgid "Cerrar vista rápida"
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:20
+msgid "Tu Carrito de Compras"
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:22
+msgid "Cerrar carrito"
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:29
+msgid "Cargando tu carrito..."
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:35
+#: woocommerce/checkout/form-checkout.php:175
+msgid "Total Estimado:"
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:39
+msgid "Envíos calculados en el checkout"
+msgstr ""
+
+#: template-parts/header/cart-drawer.php:42
+#: woocommerce/checkout/form-checkout.php:52
+msgid "Finalizar Compra"
+msgstr ""
+
+#: template-parts/header/search-modal.php:19
+msgid "Buscar Productos"
+msgstr ""
+
+#: template-parts/header/search-modal.php:21
+msgid "Cerrar búsqueda"
+msgstr ""
+
+#: template-parts/header/search-modal.php:25
+msgid "Escribe para buscar zapatillas, botines, remeras..."
+msgstr ""
+
+#: template-parts/header/search-modal.php:32
+msgid "Escribe para buscar productos..."
+msgstr ""
+
+#: woocommerce/archive-product.php:27
+msgid "Catálogo Completo"
+msgstr ""
+
+#: woocommerce/archive-product.php:32
+msgid "Productos integrados con sistema de gestión y disponibilidad inmediata."
+msgstr ""
+
+#: woocommerce/archive-product.php:41
+msgid "Filtrar y Ordenar Productos"
+msgstr ""
+
+#: woocommerce/archive-product.php:55
+msgid "Filtros de Tienda"
+msgstr ""
+
+#: woocommerce/archive-product.php:56
+msgid "Cerrar filtros"
+msgstr ""
+
+#: woocommerce/archive-product.php:62
+msgid "Categoría"
+msgstr ""
+
+#: woocommerce/archive-product.php:67
+msgid "Todas las Categorías"
+msgstr ""
+
+#: woocommerce/archive-product.php:101
+msgid "Subcategoría"
+msgstr ""
+
+#: woocommerce/archive-product.php:103
+msgid "Todas las Subcategorías"
+msgstr ""
+
+#: woocommerce/archive-product.php:120
+msgid "Marca"
+msgstr ""
+
+#: woocommerce/archive-product.php:125
+msgid "Todas las Marcas"
+msgstr ""
+
+#: woocommerce/archive-product.php:150
+msgid "Talle"
+msgstr ""
+
+#: woocommerce/archive-product.php:155
+msgid "Todos los Talles"
+msgstr ""
+
+#: woocommerce/archive-product.php:172
+msgid "Sexo / Género"
+msgstr ""
+
+#: woocommerce/archive-product.php:177
+msgid "Todos"
+msgstr ""
+
+#: woocommerce/archive-product.php:192
+msgid "Rango de precios"
+msgstr ""
+
+#: woocommerce/archive-product.php:198
+msgid "Mínimo ($)"
+msgstr ""
+
+#: woocommerce/archive-product.php:203
+msgid "Máximo ($)"
+msgstr ""
+
+#: woocommerce/archive-product.php:221
+msgid "Limpiar Filtros"
+msgstr ""
+
+#: woocommerce/archive-product.php:231
+msgid "Buscar en la tienda..."
+msgstr ""
+
+#: woocommerce/archive-product.php:235
+msgid "Ordenar por:"
+msgstr ""
+
+#: woocommerce/archive-product.php:237
+msgid "Más Populares"
+msgstr ""
+
+#: woocommerce/archive-product.php:238
+msgid "Menor Precio"
+msgstr ""
+
+#: woocommerce/archive-product.php:239
+msgid "Mayor Precio"
+msgstr ""
+
+#: woocommerce/archive-product.php:240
+msgid "Nombre A-Z"
+msgstr ""
+
+#: woocommerce/archive-product.php:268
+msgid "Prueba ajustando los filtros de búsqueda o categoría."
+msgstr ""
+
+#: woocommerce/archive-product.php:276
+msgid "Paginación de productos"
+msgstr ""
+
+#: woocommerce/archive-product.php:296
+msgid "Cargando más productos..."
+msgstr ""
+
+#: woocommerce/cart/cart-empty.php:18
+msgid "¡Tu carrito en este momento está vacío!"
+msgstr ""
+
+#: woocommerce/cart/cart-empty.php:19
+msgid "Parece que aún no has agregado productos a tu carrito. Explorá nuestra tienda y descubrí las mejores ofertas en zapatillas y ropa deportiva."
+msgstr ""
+
+#: woocommerce/cart/cart-empty.php:22
+msgid "Explorar Productos de la Tienda"
+msgstr ""
+
+#: woocommerce/cart/cart-empty.php:30
+msgid "Nuevo en la tienda"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:49
+msgid "PROCESO DE PAGO SEGURO"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:55
+msgid "Completá tus datos paso a paso para confirmar tu pedido en Franco Deportes."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:66
+msgid "1. Resumen"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:67
+msgid "Resumen de Compra"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:76
+msgid "2. Datos"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:77
+msgid "Contacto y Facturación"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:86
+msgid "3. Entrega"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:87
+msgid "Envío o Retiro"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:96
+msgid "4. Pago"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:97
+msgid "Método y Confirmación"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:119
+msgid "Resumen de la Compra"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:120
+msgid "Revisá el detalle de los productos y montos de tu pedido."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:127
+msgid "Productos en tu pedido"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:130
+msgid "Vaciar Carrito"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:138
+msgid "Cargando productos..."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:144
+msgid "Subtotal Productos:"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:148
+msgid "Costo de Envío:"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:159
+#, php-format
+msgid "Envío cotizado para CP %s"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:161
+msgid "Ingresá tu código postal para cotizar envío:"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:166
+msgid "Cambiar"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:166
+msgid "Ingresar CP"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:171
+#: woocommerce/single-product.php:218
+msgid "Calcular"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:201
+msgid "Siguiente: Mis Datos"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:211
+msgid "Información Personal y Contacto"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:212
+msgid "Ingresá los datos del comprador para la factura y notificaciones del envío."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:218
+msgid "Nombre y Apellido Completo *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:222
+msgid "DNI / CUIT (Obligatorio) *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:231
+msgid "Enviaremos la confirmación del pedido a este email."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:234
+msgid "Teléfono / WhatsApp *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:236
+msgid "Para coordinar la entrega o notificaciones de estado."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:242
+msgid "Volver al Resumen"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:245
+msgid "Siguiente: Opciones de Entrega"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:255
+msgid "Opciones de Entrega y Envío"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:256
+msgid "Seleccioná cómo deseas recibir tus productos."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:266
+#: woocommerce/myaccount/dashboard.php:63
+msgid "Dirección de Entrega"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:269
+msgid "Calle, Número, Piso y Departamento *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:274
+msgid "Localidad / Ciudad *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:278
+msgid "Provincia *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:280
+msgid "Seleccioná tu provincia"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:287
+msgid "Código Postal *"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:295
+msgid "Volver a Mis Datos"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:298
+msgid "Siguiente: Método de Pago"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:308
+msgid "Método de Pago y Confirmación"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:309
+msgid "Seleccioná la forma de pago preferida para abonar tu orden."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:349
+msgid "No hay métodos de pago disponibles en este momento. Contactanos por WhatsApp."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:366
+msgid "Volver a Entrega"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:370
+msgid "Confirmar y Finalizar Pedido"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:376
+msgid "Al hacer clic en \"Confirmar\", aceptas nuestros términos y condiciones de compra."
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:29
+msgid "¡PEDIDO CONFIRMADO CON ÉXITO!"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:32
+#, php-format
+msgid "Gracias por tu compra. Tu número de pedido es #%s."
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:38
+msgid "Fecha:"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:43
+msgid "Método de Pago:"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:48
+msgid "Total a Pagar:"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:57
+msgid "Datos para Transferencia Directa:"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:60
+msgid "Transferí el importe total a la siguiente cuenta y enviá el comprobante por WhatsApp:"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:77
+msgid "Detalle de Productos"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:114
+msgid "Enviar Comprobante por WhatsApp"
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:120
+msgid "Gracias por tu compra."
+msgstr ""
+
+#: woocommerce/checkout/thankyou.php:121
+msgid "Tu pedido ha sido recibido correctamente."
+msgstr ""
+
+#: woocommerce/content-product.php:68
+msgid "Vista Rápida"
+msgstr ""
+
+#: woocommerce/content-product.php:95
+#: woocommerce/single-product.php:205
+msgid "Agregar al Carrito"
+msgstr ""
+
+#. translators: 1: user first name
+#: woocommerce/myaccount/dashboard.php:32
+#, php-format
+msgid "¡Bienvenido a tu cuenta, %s!"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:36
+msgid "Desde aquí podés ver tus compras recientes, gestionar tus direcciones de envío y actualizar los datos de tu cuenta."
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:47
+msgid "pedido"
+msgid_plural "pedidos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: woocommerce/myaccount/dashboard.php:49
+msgid "Consultá el estado y seguimiento de tus pedidos."
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:51
+msgid "Ver pedidos"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:62
+msgid "Direcciones"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:64
+msgid "Administrá tus datos de facturación y entrega de productos."
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:66
+msgid "Administrar"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:77
+msgid "Seguridad"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:79
+msgid "Modificá tu correo electrónico, DNI o cambiá tu clave de acceso."
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:81
+msgid "Editar datos"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:93
+msgid "Atención Directa"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:94
+msgid "¿Necesitás Ayuda?"
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:95
+msgid "Chateá directamente con nuestro equipo ante cualquier duda con tu compra."
+msgstr ""
+
+#: woocommerce/myaccount/dashboard.php:97
+msgid "Contactar por WhatsApp"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:17
+msgid "Datos de la Cuenta"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:18
+msgid "Actualizá tu información personal, correo electrónico y contraseña de acceso."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:24
+msgid "Información Personal"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:28
+msgid "Nombre"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:36
+msgid "Apellido"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:46
+msgid "Nombre Visible"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:51
+msgid "Así es como se mostrará tu nombre en la barra de usuario y en tus reseñas."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:60
+msgid "Utilizado para la facturación y envío de tus pedidos."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:74
+msgid "Cambiar Contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:75
+msgid "Dejá estos campos en blanco si no deseás cambiar tu contraseña actual."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:78
+msgid "Contraseña actual (requerida para cambiarla)"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:82
+#: woocommerce/myaccount/form-edit-account.php:94
+#: woocommerce/myaccount/form-edit-account.php:105
+msgid "Ver contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:90
+#: woocommerce/myaccount/form-reset-password.php:39
+msgid "Nueva contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-account.php:101
+msgid "Confirmar nueva contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:12
+#: woocommerce/myaccount/my-address.php:18
+#: woocommerce/myaccount/my-address.php:27
+#: woocommerce/myaccount/view-order.php:195
+msgid "Dirección de Facturación"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:12
+#: woocommerce/myaccount/my-address.php:19
+#: woocommerce/myaccount/view-order.php:187
+msgid "Dirección de Envío"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:24
+msgid "Volver a Direcciones"
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:27
+msgid "Completá los datos requeridos para que podamos procesar tus pedidos correctamente."
+msgstr ""
+
+#: woocommerce/myaccount/form-edit-address.php:46
+#: woocommerce/myaccount/form-edit-address.php:47
+msgid "Guardar Dirección"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:27
+msgid "Crear una Cuenta"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:27
+msgid "Acceder a tu Cuenta"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:30
+msgid "Registrate para gestionar tus pedidos y envíos con facilidad."
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:30
+msgid "Ingresá con tus datos para ver tus compras y direcciones."
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:53
+msgid "Correo electrónico o usuario *"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:57
+msgid "ejemplo@correo.com"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:64
+#: woocommerce/myaccount/form-login.php:132
+msgid "Contraseña *"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:67
+msgid "¿Olvidaste tu contraseña?"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:73
+#: woocommerce/myaccount/form-login.php:137
+#: woocommerce/myaccount/form-reset-password.php:40
+#: woocommerce/myaccount/form-reset-password.php:53
+msgid "Mostrar u ocultar contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:84
+msgid "Recordar mis datos"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:110
+msgid "Nombre de usuario *"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:114
+msgid "usuario123"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:121
+msgid "Correo electrónico *"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:125
+#: woocommerce/myaccount/form-lost-password.php:41
+msgid "tu-email@ejemplo.com"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:136
+msgid "Mínimo 8 caracteres"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:142
+msgid "Utilizá al menos 8 caracteres con letras, números y símbolos."
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:147
+msgid "Se enviará un enlace para establecer tu contraseña a tu correo electrónico."
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:155
+msgid "Registrarse"
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:26
+msgid "Recuperar Contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:29
+msgid "Ingresá tu correo electrónico o usuario. Te enviaremos un enlace seguro para restablecer tu contraseña."
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:37
+msgid "Usuario o Correo Electrónico *"
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:51
+msgid "Restablecer contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:52
+msgid "Enviar Enlace de Recuperación"
+msgstr ""
+
+#: woocommerce/myaccount/form-lost-password.php:58
+msgid "Volver a Iniciar Sesión"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:24
+msgid "Crear Nueva Contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:27
+msgid "Ingresá tu nueva contraseña para acceder a tu cuenta de Franco Deportes."
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:35
+msgid "Nueva Contraseña *"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:48
+msgid "Confirmar Nueva Contraseña *"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:52
+msgid "Repetí tu nueva contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:66
+msgid "Guardar contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/form-reset-password.php:67
+msgid "Guardar Nueva Contraseña"
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:41
+msgid "Las siguientes direcciones se utilizarán de forma predeterminada al tramitar tus pedidos."
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:60
+msgid "Editar"
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:60
+msgid "Agregar"
+msgstr ""
+
+#: woocommerce/myaccount/my-address.php:72
+msgid "Todavía no agregaste esta dirección."
+msgstr ""
+
+#: woocommerce/myaccount/navigation.php:30
+msgid "Navegación de Mi Cuenta"
+msgstr ""
+
+#: woocommerce/myaccount/navigation.php:36
+msgid "Hola,"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:18
+msgid "Revisá el historial, seguimiento y detalle de todos tus pedidos."
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:85
+msgid "artículo"
+msgid_plural "artículos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: woocommerce/myaccount/orders.php:91
+msgid "Total:"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:127
+#: woocommerce/single-product.php:321
+msgid "Anterior"
+msgstr ""
+
+#. translators: 1: current page 2: max pages
+#: woocommerce/myaccount/orders.php:134
+#, php-format
+msgid "Página %1$d de %2$d"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:140
+#: woocommerce/single-product.php:324
+msgid "Siguiente"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:151
+msgid "Aún no tenés ningún pedido"
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:152
+msgid "Explorá nuestro catálogo y descubrí los mejores productos disponibles."
+msgstr ""
+
+#: woocommerce/myaccount/orders.php:154
+msgid "Ver Tienda"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:40
+msgid "Volver a Mis Compras"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:45
+msgid "Ayuda con este pedido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:53
+msgid "Detalle del Pedido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:70
+msgid "Estado del Envío"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:74
+msgid "Pedido Recibido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:79
+msgid "Pago Confirmado"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:84
+msgid "En Preparación"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:89
+msgid "Entregado"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:97
+msgid "Pedido no completado"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:98
+msgid "Este pedido se encuentra cancelado o fallido. Si necesitás más información por favor contactanos."
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:105
+msgid "Productos en este pedido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:154
+msgid "Cantidad:"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:169
+msgid "Resumen del Pedido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:182
+msgid "Datos de Entrega y Facturación"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:213
+msgid "Actualizaciones del Pedido"
+msgstr ""
+
+#: woocommerce/myaccount/view-order.php:217
+msgid "d/m/Y H:i"
+msgstr ""
+
+#: woocommerce/single-product.php:121
+msgid "Clic para ampliar imagen"
+msgstr ""
+
+#: woocommerce/single-product.php:168
+msgid "Stock disponible con Envío Inmediato"
+msgstr ""
+
+#: woocommerce/single-product.php:171
+msgid "Pagando con Transferencia tenés un 15% OFF Extra."
+msgstr ""
+
+#: woocommerce/single-product.php:180
+msgid "Seleccionar Talle:"
+msgstr ""
+
+#: woocommerce/single-product.php:188
+msgid "Sin stock"
+msgstr ""
+
+#: woocommerce/single-product.php:213
+msgid "Medios de envío y tiempos de entrega"
+msgstr ""
+
+#: woocommerce/single-product.php:216
+msgid "Tu código postal..."
+msgstr ""
+
+#: woocommerce/single-product.php:233
+msgid "Descripción del Producto"
+msgstr ""
+
+#: woocommerce/single-product.php:239
+msgid "Atributos y Especificaciones"
+msgstr ""

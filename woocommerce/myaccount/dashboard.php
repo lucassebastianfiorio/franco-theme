@@ -29,11 +29,11 @@ do_action( 'woocommerce_account_dashboard' );
 		<h2 class="franco-dashboard-title">
 			<?php
 			/* translators: 1: user first name */
-			printf( esc_html__( '¡Bienvenido a tu cuenta, %s!', 'franco' ), '<span>' . esc_html( $first_name ) . '</span>' );
+			printf( esc_html__( '¡Bienvenido a tu cuenta, %s!', 'franco-theme' ), '<span>' . esc_html( $first_name ) . '</span>' );
 			?>
 		</h2>
 		<p class="franco-dashboard-subtitle">
-			<?php esc_html_e( 'Desde aquí podés ver tus compras recientes, gestionar tus direcciones de envío y actualizar los datos de tu cuenta.', 'franco' ); ?>
+			<?php esc_html_e( 'Desde aquí podés ver tus compras recientes, gestionar tus direcciones de envío y actualizar los datos de tu cuenta.', 'franco-theme' ); ?>
 		</p>
 	</div>
 
@@ -44,11 +44,11 @@ do_action( 'woocommerce_account_dashboard' );
 				<i class="fas fa-box-open" aria-hidden="true"></i>
 			</div>
 			<div class="franco-dash-card-body">
-				<span class="franco-dash-card-badge"><?php echo esc_html( $orders_count ); ?> <?php echo esc_html( _n( 'pedido', 'pedidos', $orders_count, 'franco' ) ); ?></span>
-				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Mis Compras', 'franco' ); ?></h4>
-				<p class="franco-dash-card-text"><?php esc_html_e( 'Consultá el estado y seguimiento de tus pedidos.', 'franco' ); ?></p>
+				<span class="franco-dash-card-badge"><?php echo esc_html( $orders_count ); ?> <?php echo esc_html( _n( 'pedido', 'pedidos', $orders_count, 'franco-theme' ) ); ?></span>
+				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Mis Compras', 'franco-theme' ); ?></h4>
+				<p class="franco-dash-card-text"><?php esc_html_e( 'Consultá el estado y seguimiento de tus pedidos.', 'franco-theme' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>" class="franco-btn-sm franco-btn-outline">
-					<?php esc_html_e( 'Ver pedidos', 'franco' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
+					<?php esc_html_e( 'Ver pedidos', 'franco-theme' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
@@ -59,11 +59,11 @@ do_action( 'woocommerce_account_dashboard' );
 				<i class="fas fa-map-marked-alt" aria-hidden="true"></i>
 			</div>
 			<div class="franco-dash-card-body">
-				<span class="franco-dash-card-badge"><?php esc_html_e( 'Direcciones', 'franco' ); ?></span>
-				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Dirección de Entrega', 'franco' ); ?></h4>
-				<p class="franco-dash-card-text"><?php esc_html_e( 'Administrá tus datos de facturación y entrega de productos.', 'franco' ); ?></p>
+				<span class="franco-dash-card-badge"><?php esc_html_e( 'Direcciones', 'franco-theme' ); ?></span>
+				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Dirección de Entrega', 'franco-theme' ); ?></h4>
+				<p class="franco-dash-card-text"><?php esc_html_e( 'Administrá tus datos de facturación y entrega de productos.', 'franco-theme' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>" class="franco-btn-sm franco-btn-outline">
-					<?php esc_html_e( 'Administrar', 'franco' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
+					<?php esc_html_e( 'Administrar', 'franco-theme' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
@@ -74,11 +74,11 @@ do_action( 'woocommerce_account_dashboard' );
 				<i class="fas fa-user-shield" aria-hidden="true"></i>
 			</div>
 			<div class="franco-dash-card-body">
-				<span class="franco-dash-card-badge"><?php esc_html_e( 'Seguridad', 'franco' ); ?></span>
-				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Datos y Contraseña', 'franco' ); ?></h4>
-				<p class="franco-dash-card-text"><?php esc_html_e( 'Modificá tu correo electrónico, DNI o cambiá tu clave de acceso.', 'franco' ); ?></p>
+				<span class="franco-dash-card-badge"><?php esc_html_e( 'Seguridad', 'franco-theme' ); ?></span>
+				<h4 class="franco-dash-card-title"><?php esc_html_e( 'Datos y Contraseña', 'franco-theme' ); ?></h4>
+				<p class="franco-dash-card-text"><?php esc_html_e( 'Modificá tu correo electrónico, DNI o cambiá tu clave de acceso.', 'franco-theme' ); ?></p>
 				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>" class="franco-btn-sm franco-btn-outline">
-					<?php esc_html_e( 'Editar datos', 'franco' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
+					<?php esc_html_e( 'Editar datos', 'franco-theme' ); ?> <i class="fas fa-arrow-right" aria-hidden="true"></i>
 				</a>
 			</div>
 		</div>
@@ -90,11 +90,11 @@ do_action( 'woocommerce_account_dashboard' );
 				<i class="fab fa-whatsapp" aria-hidden="true"></i>
 			</div>
 			<div class="franco-dash-card-body">
-				<span class="franco-dash-card-badge badge-support"><?php esc_html_e( 'Atención Directa', 'franco' ); ?></span>
-				<h4 class="franco-dash-card-title"><?php esc_html_e( '¿Necesitás Ayuda?', 'franco' ); ?></h4>
-				<p class="franco-dash-card-text"><?php esc_html_e( 'Chateá directamente con nuestro equipo ante cualquier duda con tu compra.', 'franco' ); ?></p>
+				<span class="franco-dash-card-badge badge-support"><?php esc_html_e( 'Atención Directa', 'franco-theme' ); ?></span>
+				<h4 class="franco-dash-card-title"><?php esc_html_e( '¿Necesitás Ayuda?', 'franco-theme' ); ?></h4>
+				<p class="franco-dash-card-text"><?php esc_html_e( 'Chateá directamente con nuestro equipo ante cualquier duda con tu compra.', 'franco-theme' ); ?></p>
 				<a href="https://wa.me/<?php echo esc_attr( $whatsapp_clean ); ?>?text=<?php echo rawurlencode( 'Hola, me comunico desde Mi Cuenta en la tienda.' ); ?>" target="_blank" rel="noopener noreferrer" class="franco-btn-sm franco-btn-whatsapp">
-					<i class="fab fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'Contactar por WhatsApp', 'franco' ); ?>
+					<i class="fab fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'Contactar por WhatsApp', 'franco-theme' ); ?>
 				</a>
 			</div>
 		</div>

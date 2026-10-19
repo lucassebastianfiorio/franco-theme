@@ -14,8 +14,8 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 
 <div class="franco-orders-container">
 	<div class="franco-orders-header">
-		<h2 class="franco-section-title"><?php esc_html_e( 'Mis Compras', 'franco' ); ?></h2>
-		<p class="franco-section-subtitle"><?php esc_html_e( 'Revisá el historial, seguimiento y detalle de todos tus pedidos.', 'franco' ); ?></p>
+		<h2 class="franco-section-title"><?php esc_html_e( 'Mis Compras', 'franco-theme' ); ?></h2>
+		<p class="franco-section-subtitle"><?php esc_html_e( 'Revisá el historial, seguimiento y detalle de todos tus pedidos.', 'franco-theme' ); ?></p>
 	</div>
 
 	<?php if ( $has_orders ) : ?>
@@ -82,13 +82,13 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 
 							<div class="franco-order-items-summary">
 								<span class="items-count-text">
-									<?php echo esc_html( $item_count ); ?> <?php echo esc_html( _n( 'artículo', 'artículos', $item_count, 'franco' ) ); ?>
+									<?php echo esc_html( $item_count ); ?> <?php echo esc_html( _n( 'artículo', 'artículos', $item_count, 'franco-theme' ) ); ?>
 								</span>
 							</div>
 						</div>
 
 						<div class="franco-order-total-block">
-							<span class="total-label"><?php esc_html_e( 'Total:', 'franco' ); ?></span>
+							<span class="total-label"><?php esc_html_e( 'Total:', 'franco-theme' ); ?></span>
 							<span class="total-amount"><?php echo $order->get_formatted_order_total(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</div>
 					</div>
@@ -124,20 +124,20 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 			<div class="franco-pagination-wrap woocommerce-pagination">
 				<?php if ( 1 !== $current_page ) : ?>
 					<a class="franco-pagination-btn prev" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page - 1 ) ); ?>">
-						<i class="fas fa-chevron-left" aria-hidden="true"></i> <?php esc_html_e( 'Anterior', 'franco' ); ?>
+						<i class="fas fa-chevron-left" aria-hidden="true"></i> <?php esc_html_e( 'Anterior', 'franco-theme' ); ?>
 					</a>
 				<?php endif; ?>
 
 				<span class="franco-pagination-current">
 					<?php
 					/* translators: 1: current page 2: max pages */
-					printf( esc_html__( 'Página %1$d de %2$d', 'franco' ), (int) $current_page, (int) $customer_orders->max_num_pages );
+					printf( esc_html__( 'Página %1$d de %2$d', 'franco-theme' ), (int) $current_page, (int) $customer_orders->max_num_pages );
 					?>
 				</span>
 
 				<?php if ( intval( $customer_orders->max_num_pages ) !== $current_page ) : ?>
 					<a class="franco-pagination-btn next" href="<?php echo esc_url( wc_get_endpoint_url( 'orders', $current_page + 1 ) ); ?>">
-						<?php esc_html_e( 'Siguiente', 'franco' ); ?> <i class="fas fa-chevron-right" aria-hidden="true"></i>
+						<?php esc_html_e( 'Siguiente', 'franco-theme' ); ?> <i class="fas fa-chevron-right" aria-hidden="true"></i>
 					</a>
 				<?php endif; ?>
 			</div>
@@ -148,10 +148,10 @@ do_action( 'woocommerce_before_account_orders', $has_orders );
 			<div class="franco-empty-icon">
 				<i class="fas fa-shopping-bag" aria-hidden="true"></i>
 			</div>
-			<h3 class="franco-empty-title"><?php esc_html_e( 'Aún no tenés ningún pedido', 'franco' ); ?></h3>
-			<p class="franco-empty-desc"><?php esc_html_e( 'Explorá nuestro catálogo y descubrí los mejores productos disponibles.', 'franco' ); ?></p>
+			<h3 class="franco-empty-title"><?php esc_html_e( 'Aún no tenés ningún pedido', 'franco-theme' ); ?></h3>
+			<p class="franco-empty-desc"><?php esc_html_e( 'Explorá nuestro catálogo y descubrí los mejores productos disponibles.', 'franco-theme' ); ?></p>
 			<a href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>" class="franco-btn franco-btn-primary">
-				<i class="fas fa-store" aria-hidden="true"></i> <?php esc_html_e( 'Ver Tienda', 'franco' ); ?>
+				<i class="fas fa-store" aria-hidden="true"></i> <?php esc_html_e( 'Ver Tienda', 'franco-theme' ); ?>
 			</a>
 		</div>
 	<?php endif; ?>

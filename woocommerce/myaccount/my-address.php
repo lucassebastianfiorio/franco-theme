@@ -15,8 +15,8 @@ if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) {
 	$get_addresses = apply_filters(
 		'woocommerce_my_account_get_addresses',
 		array(
-			'billing'  => __( 'Dirección de Facturación', 'franco' ),
-			'shipping' => __( 'Dirección de Envío', 'franco' ),
+			'billing'  => __( 'Dirección de Facturación', 'franco-theme' ),
+			'shipping' => __( 'Dirección de Envío', 'franco-theme' ),
 		),
 		$customer_id
 	);
@@ -24,7 +24,7 @@ if ( ! wc_ship_to_billing_address_only() && wc_shipping_enabled() ) {
 	$get_addresses = apply_filters(
 		'woocommerce_my_account_get_addresses',
 		array(
-			'billing' => __( 'Dirección de Facturación', 'franco' ),
+			'billing' => __( 'Dirección de Facturación', 'franco-theme' ),
 		),
 		$customer_id
 	);
@@ -36,9 +36,9 @@ $col    = 1;
 
 <div class="franco-addresses-container">
 	<div class="franco-addresses-header">
-		<h2 class="franco-section-title"><?php esc_html_e( 'Mis Direcciones', 'franco' ); ?></h2>
+		<h2 class="franco-section-title"><?php esc_html_e( 'Mis Direcciones', 'franco-theme' ); ?></h2>
 		<p class="franco-section-subtitle">
-			<?php echo apply_filters( 'woocommerce_my_account_my_address_description', esc_html__( 'Las siguientes direcciones se utilizarán de forma predeterminada al tramitar tus pedidos.', 'franco' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo apply_filters( 'woocommerce_my_account_my_address_description', esc_html__( 'Las siguientes direcciones se utilizarán de forma predeterminada al tramitar tus pedidos.', 'franco-theme' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</p>
 	</div>
 
@@ -57,7 +57,7 @@ $col    = 1;
 						<h3 class="address-title"><?php echo esc_html( $address_title ); ?></h3>
 					</div>
 					<a href="<?php echo esc_url( $edit_url ); ?>" class="franco-btn-sm franco-btn-outline edit-address-btn">
-						<i class="fas fa-edit" aria-hidden="true"></i> <?php echo $address ? esc_html__( 'Editar', 'franco' ) : esc_html__( 'Agregar', 'franco' ); ?>
+						<i class="fas fa-edit" aria-hidden="true"></i> <?php echo $address ? esc_html__( 'Editar', 'franco-theme' ) : esc_html__( 'Agregar', 'franco-theme' ); ?>
 					</a>
 				</div>
 
@@ -69,7 +69,7 @@ $col    = 1;
 					<?php else : ?>
 						<div class="address-empty-notice">
 							<i class="fas fa-map-pin" aria-hidden="true"></i>
-							<p><?php esc_html_e( 'Todavía no agregaste esta dirección.', 'franco' ); ?></p>
+							<p><?php esc_html_e( 'Todavía no agregaste esta dirección.', 'franco-theme' ); ?></p>
 						</div>
 					<?php endif; ?>
 				</div>

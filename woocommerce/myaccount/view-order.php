@@ -37,12 +37,12 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 <div class="franco-view-order-container">
 	<div class="franco-view-order-topbar">
 		<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>" class="franco-back-link">
-			<i class="fas fa-arrow-left" aria-hidden="true"></i> <?php esc_html_e( 'Volver a Mis Compras', 'franco' ); ?>
+			<i class="fas fa-arrow-left" aria-hidden="true"></i> <?php esc_html_e( 'Volver a Mis Compras', 'franco-theme' ); ?>
 		</a>
 
 		<?php if ( ! empty( $whatsapp_clean ) ) : ?>
 			<a href="https://wa.me/<?php echo esc_attr( $whatsapp_clean ); ?>?text=<?php echo rawurlencode( 'Hola, consulto por mi pedido #' . $order_number ); ?>" target="_blank" rel="noopener noreferrer" class="franco-btn-sm franco-btn-whatsapp">
-				<i class="fab fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'Ayuda con este pedido', 'franco' ); ?>
+				<i class="fab fa-whatsapp" aria-hidden="true"></i> <?php esc_html_e( 'Ayuda con este pedido', 'franco-theme' ); ?>
 			</a>
 		<?php endif; ?>
 	</div>
@@ -50,7 +50,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 	<!-- Order Header Banner -->
 	<div class="franco-view-order-header">
 		<div class="franco-view-order-title-wrap">
-			<span class="franco-order-kicker"><?php esc_html_e( 'Detalle del Pedido', 'franco' ); ?></span>
+			<span class="franco-order-kicker"><?php esc_html_e( 'Detalle del Pedido', 'franco-theme' ); ?></span>
 			<h2 class="franco-order-heading">#<?php echo esc_html( $order_number ); ?></h2>
 			<span class="franco-order-datetime">
 				<i class="far fa-calendar-alt" aria-hidden="true"></i> <?php echo esc_html( $order_date ); ?>
@@ -67,26 +67,26 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 	<!-- Order Timeline -->
 	<?php if ( ! $is_cancelled ) : ?>
 	<div class="franco-order-timeline-card">
-		<h4 class="franco-card-title"><?php esc_html_e( 'Estado del Envío', 'franco' ); ?></h4>
+		<h4 class="franco-card-title"><?php esc_html_e( 'Estado del Envío', 'franco-theme' ); ?></h4>
 		<div class="franco-timeline-track">
 			<div class="franco-timeline-step is-completed">
 				<div class="step-circle"><i class="fas fa-check" aria-hidden="true"></i></div>
-				<div class="step-label"><?php esc_html_e( 'Pedido Recibido', 'franco' ); ?></div>
+				<div class="step-label"><?php esc_html_e( 'Pedido Recibido', 'franco-theme' ); ?></div>
 			</div>
 
 			<div class="franco-timeline-step <?php echo $step2_done ? 'is-completed' : ( $step2_active ? 'is-active' : '' ); ?>">
 				<div class="step-circle"><i class="fas <?php echo $step2_done ? 'fa-check' : 'fa-credit-card'; ?>" aria-hidden="true"></i></div>
-				<div class="step-label"><?php esc_html_e( 'Pago Confirmado', 'franco' ); ?></div>
+				<div class="step-label"><?php esc_html_e( 'Pago Confirmado', 'franco-theme' ); ?></div>
 			</div>
 
 			<div class="franco-timeline-step <?php echo $step3_done ? 'is-completed' : ( $step3_active ? 'is-active' : '' ); ?>">
 				<div class="step-circle"><i class="fas <?php echo $step3_done ? 'fa-check' : 'fa-box'; ?>" aria-hidden="true"></i></div>
-				<div class="step-label"><?php esc_html_e( 'En Preparación', 'franco' ); ?></div>
+				<div class="step-label"><?php esc_html_e( 'En Preparación', 'franco-theme' ); ?></div>
 			</div>
 
 			<div class="franco-timeline-step <?php echo $step4_done ? 'is-completed' : ''; ?>">
 				<div class="step-circle"><i class="fas <?php echo $step4_done ? 'fa-check' : 'fa-truck'; ?>" aria-hidden="true"></i></div>
-				<div class="step-label"><?php esc_html_e( 'Entregado', 'franco' ); ?></div>
+				<div class="step-label"><?php esc_html_e( 'Entregado', 'franco-theme' ); ?></div>
 			</div>
 		</div>
 	</div>
@@ -94,15 +94,15 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 	<div class="franco-order-cancelled-notice">
 		<i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
 		<div>
-			<strong><?php esc_html_e( 'Pedido no completado', 'franco' ); ?></strong>
-			<p><?php esc_html_e( 'Este pedido se encuentra cancelado o fallido. Si necesitás más información por favor contactanos.', 'franco' ); ?></p>
+			<strong><?php esc_html_e( 'Pedido no completado', 'franco-theme' ); ?></strong>
+			<p><?php esc_html_e( 'Este pedido se encuentra cancelado o fallido. Si necesitás más información por favor contactanos.', 'franco-theme' ); ?></p>
 		</div>
 	</div>
 	<?php endif; ?>
 
 	<!-- Items List with Item N° -->
 	<div class="franco-order-products-card">
-		<h4 class="franco-card-title"><?php esc_html_e( 'Productos en este pedido', 'franco' ); ?></h4>
+		<h4 class="franco-card-title"><?php esc_html_e( 'Productos en este pedido', 'franco-theme' ); ?></h4>
 		<div class="franco-order-items-table">
 			<?php foreach ( $items as $item_id => $item ) :
 				$product   = $item->get_product();
@@ -131,7 +131,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 						<span class="product-title"><?php echo esc_html( $clean_name ); ?></span>
 						<?php if ( ! empty( $item_code ) ) : ?>
 							<span class="product-item-code-badge">
-								<i class="fas fa-barcode" aria-hidden="true"></i> <?php printf( esc_html__( 'Item N° %s', 'franco' ), esc_html( $item_code ) ); ?>
+								<i class="fas fa-barcode" aria-hidden="true"></i> <?php printf( esc_html__( 'Item N° %s', 'franco-theme' ), esc_html( $item_code ) ); ?>
 							</span>
 						<?php endif; ?>
 
@@ -151,7 +151,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 							</div>
 						<?php endif; ?>
 
-						<span class="product-qty-sub"><?php esc_html_e( 'Cantidad:', 'franco' ); ?> <strong><?php echo esc_html( $item->get_quantity() ); ?></strong></span>
+						<span class="product-qty-sub"><?php esc_html_e( 'Cantidad:', 'franco-theme' ); ?> <strong><?php echo esc_html( $item->get_quantity() ); ?></strong></span>
 					</div>
 
 					<div class="product-price-col">
@@ -166,7 +166,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 	<div class="franco-view-order-details-grid">
 		<!-- Summary Totals -->
 		<div class="franco-card franco-order-totals-card">
-			<h4 class="franco-card-title"><?php esc_html_e( 'Resumen del Pedido', 'franco' ); ?></h4>
+			<h4 class="franco-card-title"><?php esc_html_e( 'Resumen del Pedido', 'franco-theme' ); ?></h4>
 			<ul class="franco-totals-list">
 				<?php foreach ( $order->get_order_item_totals() as $key => $total ) : ?>
 					<li class="franco-total-item total-<?php echo sanitize_html_class( $key ); ?>">
@@ -179,12 +179,12 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 
 		<!-- Addresses & Payment -->
 		<div class="franco-card franco-order-info-card">
-			<h4 class="franco-card-title"><?php esc_html_e( 'Datos de Entrega y Facturación', 'franco' ); ?></h4>
+			<h4 class="franco-card-title"><?php esc_html_e( 'Datos de Entrega y Facturación', 'franco-theme' ); ?></h4>
 
 			<div class="franco-order-address-columns">
 				<?php if ( $order->get_formatted_shipping_address() ) : ?>
 					<div class="address-box">
-						<span class="address-type"><i class="fas fa-truck" aria-hidden="true"></i> <?php esc_html_e( 'Dirección de Envío', 'franco' ); ?></span>
+						<span class="address-type"><i class="fas fa-truck" aria-hidden="true"></i> <?php esc_html_e( 'Dirección de Envío', 'franco-theme' ); ?></span>
 						<address class="address-content">
 							<?php echo wp_kses_post( $order->get_formatted_shipping_address() ); ?>
 						</address>
@@ -192,7 +192,7 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 				<?php endif; ?>
 
 				<div class="address-box">
-					<span class="address-type"><i class="fas fa-file-invoice" aria-hidden="true"></i> <?php esc_html_e( 'Dirección de Facturación', 'franco' ); ?></span>
+					<span class="address-type"><i class="fas fa-file-invoice" aria-hidden="true"></i> <?php esc_html_e( 'Dirección de Facturación', 'franco-theme' ); ?></span>
 					<address class="address-content">
 						<?php echo wp_kses_post( $order->get_formatted_billing_address() ); ?>
 					</address>
@@ -210,11 +210,11 @@ $is_cancelled = in_array( $status, array( 'cancelled', 'refunded', 'failed' ), t
 	<!-- Customer Notes / Order updates -->
 	<?php if ( $notes ) : ?>
 	<div class="franco-order-notes-card">
-		<h4 class="franco-card-title"><?php esc_html_e( 'Actualizaciones del Pedido', 'franco' ); ?></h4>
+		<h4 class="franco-card-title"><?php esc_html_e( 'Actualizaciones del Pedido', 'franco-theme' ); ?></h4>
 		<ul class="franco-order-notes-list">
 			<?php foreach ( $notes as $note ) : ?>
 				<li class="franco-order-note-item">
-					<span class="note-date"><i class="far fa-clock" aria-hidden="true"></i> <?php echo esc_html( date_i18n( __( 'd/m/Y H:i', 'franco' ), strtotime( $note->comment_date ) ) ); ?></span>
+					<span class="note-date"><i class="far fa-clock" aria-hidden="true"></i> <?php echo esc_html( date_i18n( __( 'd/m/Y H:i', 'franco-theme' ), strtotime( $note->comment_date ) ) ); ?></span>
 					<div class="note-text"><?php echo wpautop( wptexturize( $note->comment_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 				</li>
 			<?php endforeach; ?>
