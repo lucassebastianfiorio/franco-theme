@@ -359,6 +359,58 @@ function franco_cache_key( $prefix ) {
 }
 
 /**
+ * Invalidate catalog transients when products are updated or changed.
+ */
+function franco_invalidate_catalog_cache() {
+	$ver = (int) get_option( 'franco_catalog_cache_ver', 1 );
+	update_option( 'franco_catalog_cache_ver', $ver + 1, false );
+}
+add_action( 'woocommerce_update_product', 'franco_invalidate_catalog_cache' );
+add_action( 'woocommerce_new_product', 'franco_invalidate_catalog_cache' );
+add_action( 'woocommerce_product_set_stock_status', 'franco_invalidate_catalog_cache' );
+add_action( 'save_post_product', 'franco_invalidate_catalog_cache' );
+
+/**
+ * Get product IDs for homepage showcase without using expensive ORDER BY RAND().
+ *
+ * @param int $limit Number of product IDs to retrieve.
+ * @return int[] Array of product IDs.
+ */
+function franco_get_homepage_product_ids( $limit = 8 ) {
+	$cache_key = franco_cache_key( 'homepage_product_ids_' . $limit );
+	$ids       = get_transient( $cache_key );
+
+	if ( false === $ids || ! is_array( $ids ) ) {
+		$pool = get_posts( array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => 40,
+			'fields'         => 'ids',
+			'no_found_rows'  => true,
+			'meta_query'     => array(
+				array(
+					'key'     => '_stock_status',
+					'value'   => 'instock',
+					'compare' => '=',
+				),
+			),
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+		) );
+
+		if ( empty( $pool ) ) {
+			return array();
+		}
+
+		shuffle( $pool );
+		$ids = array_slice( $pool, 0, $limit );
+		set_transient( $cache_key, $ids, 15 * MINUTE_IN_SECONDS );
+	}
+
+	return $ids;
+}
+
+/**
  * Query term IDs associated with published, in-stock products that have a valid price > 0.
  *
  * @param string $taxonomy Taxonomy name e.g. 'product_cat', 'pa_talle', 'pa_color', 'pa_sexo', 'pa_marca'.
@@ -373,26 +425,44 @@ function franco_get_visible_product_term_ids( $taxonomy = 'product_cat' ) {
 		return $cached;
 	}
 
-	$results = $wpdb->get_col(
-		$wpdb->prepare(
-			"SELECT DISTINCT tt.term_id
-			 FROM {$wpdb->term_relationships} tr
-			 INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
-			 INNER JOIN {$wpdb->posts} p ON tr.object_id = p.ID
-			 LEFT JOIN {$wpdb->posts} parent_p ON (p.post_parent = parent_p.ID AND p.post_type = 'product_variation')
-			 LEFT JOIN {$wpdb->postmeta} pm_stock ON (p.ID = pm_stock.post_id AND pm_stock.meta_key = '_stock_status')
-			 LEFT JOIN {$wpdb->postmeta} pm_parent_stock ON (parent_p.ID = pm_parent_stock.post_id AND pm_parent_stock.meta_key = '_stock_status')
-			 LEFT JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
-			 LEFT JOIN {$wpdb->postmeta} pm_parent_price ON (parent_p.ID = pm_parent_price.post_id AND pm_parent_price.meta_key = '_price')
-			 WHERE tt.taxonomy = %s
-			   AND p.post_type IN ('product', 'product_variation')
-			   AND p.post_status = 'publish'
-			   AND (pm_stock.meta_value = 'instock' OR pm_stock.meta_value IS NULL OR (p.post_type = 'product_variation' AND pm_parent_stock.meta_value = 'instock'))
-			   AND ((pm_price.meta_value IS NOT NULL AND pm_price.meta_value != '' AND CAST(pm_price.meta_value AS DECIMAL(10,2)) > 0)
-			        OR (pm_parent_price.meta_value IS NOT NULL AND pm_parent_price.meta_value != '' AND CAST(pm_parent_price.meta_value AS DECIMAL(10,2)) > 0))",
-			$taxonomy
-		)
-	);
+	$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
+	$has_lookup   = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $lookup_table ) ) === $lookup_table;
+
+	if ( $has_lookup ) {
+		$results = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT tt.term_id
+				 FROM {$wpdb->term_relationships} tr
+				 INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+				 INNER JOIN {$lookup_table} ml ON tr.object_id = ml.product_id
+				 WHERE tt.taxonomy = %s
+				   AND ml.stock_status = 'instock'
+				   AND ml.min_price > 0",
+				$taxonomy
+			)
+		);
+	} else {
+		$results = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT tt.term_id
+				 FROM {$wpdb->term_relationships} tr
+				 INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+				 INNER JOIN {$wpdb->posts} p ON tr.object_id = p.ID
+				 LEFT JOIN {$wpdb->posts} parent_p ON (p.post_parent = parent_p.ID AND p.post_type = 'product_variation')
+				 LEFT JOIN {$wpdb->postmeta} pm_stock ON (p.ID = pm_stock.post_id AND pm_stock.meta_key = '_stock_status')
+				 LEFT JOIN {$wpdb->postmeta} pm_parent_stock ON (parent_p.ID = pm_parent_stock.post_id AND pm_parent_stock.meta_key = '_stock_status')
+				 LEFT JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
+				 LEFT JOIN {$wpdb->postmeta} pm_parent_price ON (parent_p.ID = pm_parent_price.post_id AND pm_parent_price.meta_key = '_price')
+				 WHERE tt.taxonomy = %s
+				   AND p.post_type IN ('product', 'product_variation')
+				   AND p.post_status = 'publish'
+				   AND (pm_stock.meta_value = 'instock' OR pm_stock.meta_value IS NULL OR (p.post_type = 'product_variation' AND pm_parent_stock.meta_value = 'instock'))
+				   AND ((pm_price.meta_value IS NOT NULL AND pm_price.meta_value != '' AND CAST(pm_price.meta_value AS DECIMAL(10,2)) > 0)
+				        OR (pm_parent_price.meta_value IS NOT NULL AND pm_parent_price.meta_value != '' AND CAST(pm_parent_price.meta_value AS DECIMAL(10,2)) > 0))",
+				$taxonomy
+			)
+		);
+	}
 
 	$term_ids = array_map( 'absint', $results ? $results : array() );
 
@@ -502,20 +572,34 @@ function franco_get_min_max_prices() {
 		return $cached;
 	}
 
-	$results = $wpdb->get_row(
-		"SELECT 
-			MIN(CAST(pm_price.meta_value AS DECIMAL(10,2))) as min_price,
-			MAX(CAST(pm_price.meta_value AS DECIMAL(10,2))) as max_price
-		 FROM {$wpdb->posts} p
-		 INNER JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
-		 LEFT JOIN {$wpdb->postmeta} pm_stock ON (p.ID = pm_stock.post_id AND pm_stock.meta_key = '_stock_status')
-		 WHERE p.post_type IN ('product', 'product_variation')
-		   AND p.post_status = 'publish'
-		   AND (pm_stock.meta_value = 'instock' OR pm_stock.meta_value IS NULL)
-		   AND pm_price.meta_value IS NOT NULL
-		   AND pm_price.meta_value != ''
-		   AND CAST(pm_price.meta_value AS DECIMAL(10,2)) > 0"
-	);
+	$lookup_table = $wpdb->prefix . 'wc_product_meta_lookup';
+	$has_lookup   = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $lookup_table ) ) === $lookup_table;
+
+	if ( $has_lookup ) {
+		$results = $wpdb->get_row(
+			"SELECT 
+				MIN(min_price) as min_price,
+				MAX(max_price) as max_price
+			 FROM {$lookup_table}
+			 WHERE stock_status = 'instock'
+			   AND min_price > 0"
+		);
+	} else {
+		$results = $wpdb->get_row(
+			"SELECT 
+				MIN(CAST(pm_price.meta_value AS DECIMAL(10,2))) as min_price,
+				MAX(CAST(pm_price.meta_value AS DECIMAL(10,2))) as max_price
+			 FROM {$wpdb->posts} p
+			 INNER JOIN {$wpdb->postmeta} pm_price ON (p.ID = pm_price.post_id AND pm_price.meta_key = '_price')
+			 LEFT JOIN {$wpdb->postmeta} pm_stock ON (p.ID = pm_stock.post_id AND pm_stock.meta_key = '_stock_status')
+			 WHERE p.post_type IN ('product', 'product_variation')
+			   AND p.post_status = 'publish'
+			   AND (pm_stock.meta_value = 'instock' OR pm_stock.meta_value IS NULL)
+			   AND pm_price.meta_value IS NOT NULL
+			   AND pm_price.meta_value != ''
+			   AND CAST(pm_price.meta_value AS DECIMAL(10,2)) > 0"
+		);
+	}
 
 	$min = ( $results && null !== $results->min_price ) ? floor( (float) $results->min_price ) : 0;
 	$max = ( $results && null !== $results->max_price ) ? ceil( (float) $results->max_price ) : 250000;

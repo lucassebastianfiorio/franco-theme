@@ -1129,9 +1129,16 @@ function franco_wc_ajax_filter_products() {
 		);
 	}
 
-	// Ordering. On the home page, "popular" shows random products. On the shop, it uses catalog default order.
+	// Ordering. On the home page, "popular" shows random products safely without SQL RAND(). On the shop, it uses catalog default order.
 	if ( 'home' === $context && 'popular' === $sort_by ) {
-		$args['orderby'] = 'rand';
+		$home_ids = function_exists( 'franco_get_homepage_product_ids' ) ? franco_get_homepage_product_ids( 8 ) : array();
+		if ( ! empty( $home_ids ) ) {
+			$args['post__in'] = $home_ids;
+			$args['orderby']  = 'post__in';
+		} else {
+			$args['orderby'] = 'date';
+			$args['order']   = 'DESC';
+		}
 	} elseif ( 'shop' === $context && 'popular' === $sort_by && function_exists( 'WC' ) && WC()->query ) {
 		$ordering = WC()->query->get_catalog_ordering_args();
 		if ( ! empty( $ordering['orderby'] ) ) {

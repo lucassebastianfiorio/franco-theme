@@ -76,28 +76,26 @@ $shop_url = class_exists( 'WooCommerce' ) ? get_permalink( wc_get_page_id( 'shop
 	<div class="products-grid" id="products-grid">
 		<?php
 		if ( class_exists( 'WooCommerce' ) ) {
-			$args = array(
-				'post_type'      => 'product',
-				'post_status'    => 'publish',
-				'posts_per_page' => 8,
-				'orderby'        => 'rand',
-				'no_found_rows'  => true,
-				'meta_query'     => array(
-					array(
-						'key'     => '_stock_status',
-						'value'   => 'instock',
-						'compare' => '=',
-					),
-				),
-			);
-			$loop = new WP_Query( $args );
+			$product_ids = function_exists( 'franco_get_homepage_product_ids' ) ? franco_get_homepage_product_ids( 8 ) : array();
 
-			if ( $loop->have_posts() ) {
-				while ( $loop->have_posts() ) {
-					$loop->the_post();
-					wc_get_template_part( 'content', 'product' );
+			if ( ! empty( $product_ids ) ) {
+				$args = array(
+					'post_type'      => 'product',
+					'post_status'    => 'publish',
+					'post__in'       => $product_ids,
+					'orderby'        => 'post__in',
+					'posts_per_page' => count( $product_ids ),
+					'no_found_rows'  => true,
+				);
+				$loop = new WP_Query( $args );
+
+				if ( $loop->have_posts() ) {
+					while ( $loop->have_posts() ) {
+						$loop->the_post();
+						wc_get_template_part( 'content', 'product' );
+					}
+					wp_reset_postdata();
 				}
-				wp_reset_postdata();
 			} else {
 				echo '<div class="home-products-empty">';
 				echo '<p class="text-muted">' . esc_html__( 'No hay productos disponibles en stock.', 'franco-theme' ) . '</p>';
