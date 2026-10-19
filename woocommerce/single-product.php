@@ -67,14 +67,12 @@ while ( have_posts() ) :
 	// Stock por talle: un talle está disponible si alguna variación con ese talle tiene stock.
 	$size_stock = array();
 	if ( ! empty( $sizes ) ) {
-		foreach ( $product->get_visible_children() as $child_id ) {
-			$variation = wc_get_product( $child_id );
-			if ( ! $variation ) continue;
-			$v_size = $variation->get_attribute( 'pa_talle' );
-			$v_slug = get_post_meta( $child_id, 'attribute_pa_talle', true );
-			$in     = $variation->is_in_stock() && $variation->is_purchasable();
+		$variations = $product->get_available_variations();
+		foreach ( $variations as $v_data ) {
+			$v_slug = isset( $v_data['attributes']['attribute_pa_talle'] ) ? (string) $v_data['attributes']['attribute_pa_talle'] : '';
+			$in     = ! empty( $v_data['is_in_stock'] ) && ! empty( $v_data['is_purchasable'] );
 			foreach ( $sizes as $s ) {
-				if ( '' === $v_slug || $v_slug === $s['slug'] || franco_normalize_talle( $v_size ) === $s['name'] ) {
+				if ( '' === $v_slug || $v_slug === $s['slug'] ) {
 					$size_stock[ $s['slug'] ] = ! empty( $size_stock[ $s['slug'] ] ) || $in;
 				}
 			}

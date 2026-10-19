@@ -33,16 +33,24 @@ function franco_clean_price( $price_html ) {
  * @return mixed
  */
 function franco_get_setting( $key, $default = '' ) {
+	static $cache = array();
+	if ( array_key_exists( $key, $cache ) ) {
+		return ( '' !== $cache[ $key ] && null !== $cache[ $key ] && false !== $cache[ $key ] ) ? $cache[ $key ] : $default;
+	}
+
 	$value = get_option( $key );
 	if ( false !== $value && '' !== $value && null !== $value ) {
+		$cache[ $key ] = $value;
 		return $value;
 	}
 
 	$value = get_theme_mod( $key );
 	if ( false !== $value && '' !== $value && null !== $value ) {
+		$cache[ $key ] = $value;
 		return $value;
 	}
 
+	$cache[ $key ] = $default;
 	return $default;
 }
 

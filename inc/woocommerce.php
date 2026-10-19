@@ -245,13 +245,21 @@ function franco_wc_get_product_sizes( $product ) {
  * @return string
  */
 function franco_wc_get_size_label( $slug ) {
+	static $label_cache = array();
+	$cache_key = (string) $slug;
+	if ( isset( $label_cache[ $cache_key ] ) ) {
+		return $label_cache[ $cache_key ];
+	}
+
 	$term = get_term_by( 'slug', $slug, 'pa_talle' );
 	if ( ! $term || is_wp_error( $term ) ) {
 		$term = get_term_by( 'name', $slug, 'pa_talle' );
 	}
 
 	$label = ( $term && ! is_wp_error( $term ) ) ? $term->name : (string) $slug;
-	return franco_normalize_talle( $label );
+	$normalized = franco_normalize_talle( $label );
+	$label_cache[ $cache_key ] = $normalized;
+	return $normalized;
 }
 
 /**
