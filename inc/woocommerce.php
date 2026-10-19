@@ -1264,10 +1264,52 @@ function franco_is_account_page() {
 	return is_account_page() || ( $myaccount_id > 0 && is_page( $myaccount_id ) );
 }
 
-// Enable registration on My Account page
-add_filter( 'option_woocommerce_enable_myaccount_registration', function( $val ) {
-	return 'yes';
-} );
+/**
+ * Registro de usuarios: Respeta la configuración nativa de WooCommerce (Ajustes > Cuentas).
+ * Si el registro está habilitado, añade protección Honeypot y Time-gate contra bots automatizados.
+ */
+function franco_registration_honeypot_fields() {
+	$timestamp = time();
+	$hash      = wp_hash( 'franco_reg_time_' . $timestamp );
+	?>
+	<div style="position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; overflow: hidden !important;" aria-hidden="true">
+		<label for="franco_website_hp">Leave this field blank</label>
+		<input type="text" name="franco_website_hp" id="franco_website_hp" value="" tabindex="-1" autocomplete="off" />
+		<input type="hidden" name="franco_reg_ts" value="<?php echo esc_attr( $timestamp ); ?>" />
+		<input type="hidden" name="franco_reg_tsh" value="<?php echo esc_attr( $hash ); ?>" />
+	</div>
+	<?php
+}
+add_action( 'woocommerce_register_form', 'franco_registration_honeypot_fields' );
+
+function franco_validate_registration_honeypot( $errors, $username, $email ) {
+	// 1. Si el registro está deshabilitado en WooCommerce pero se envió el formulario POST
+	if ( 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
+		$errors->add( 'registration-disabled', __( 'El registro de nuevas cuentas está deshabilitado en este momento.', 'franco-theme' ) );
+		return $errors;
+	}
+
+	// 2. Comprobar campo Honeypot (debe estar completamente vacío)
+	if ( ! empty( $_POST['franco_website_hp'] ) ) {
+		$errors->add( 'spam-bot-detected', __( 'Error al procesar la solicitud. Por favor intenta nuevamente.', 'franco-theme' ) );
+		return $errors;
+	}
+
+	// 3. Comprobar Time-gate (mínimo 2 segundos entre render y envío humano)
+	if ( isset( $_POST['franco_reg_ts'], $_POST['franco_reg_tsh'] ) ) {
+		$ts   = absint( $_POST['franco_reg_ts'] );
+		$hash = sanitize_text_field( wp_unslash( $_POST['franco_reg_tsh'] ) );
+		if ( wp_hash( 'franco_reg_time_' . $ts ) === $hash ) {
+			if ( ( time() - $ts ) < 2 ) {
+				$errors->add( 'spam-fast-submission', __( 'Envío demasiado rápido. Por favor intenta nuevamente.', 'franco-theme' ) );
+				return $errors;
+			}
+		}
+	}
+
+	return $errors;
+}
+add_filter( 'woocommerce_process_registration_errors', 'franco_validate_registration_honeypot', 10, 3 );
 
 /**
  * 11. Main shop / product taxonomy queries: in-stock only (matches the AJAX filter endpoint).
