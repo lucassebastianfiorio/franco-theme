@@ -104,7 +104,7 @@ function franco_preload_hero_image() {
 add_action( 'wp_head', 'franco_preload_hero_image', 1 );
 
 /**
- * Add resource hints (preconnect) for external fonts and CDNs to improve performance
+ * Add resource hints (preconnect and dns-prefetch) for external fonts and CDNs to improve performance
  */
 function franco_resource_hints( $urls, $relation_type ) {
 	if ( 'preconnect' === $relation_type ) {
@@ -112,15 +112,38 @@ function franco_resource_hints( $urls, $relation_type ) {
 			'href' => 'https://fonts.googleapis.com',
 		);
 		$urls[] = array(
-			'href' => 'https://fonts.gstatic.com',
+			'href'        => 'https://fonts.gstatic.com',
 			'crossorigin' => 'anonymous',
 		);
 		$urls[] = array(
-			'href' => 'https://cdnjs.cloudflare.com',
+			'href'        => 'https://cdnjs.cloudflare.com',
 			'crossorigin' => 'anonymous',
 		);
+	} elseif ( 'dns-prefetch' === $relation_type ) {
+		$urls[] = 'https://fonts.googleapis.com';
+		$urls[] = 'https://fonts.gstatic.com';
+		$urls[] = 'https://cdnjs.cloudflare.com';
 	}
 	return $urls;
 }
 add_filter( 'wp_resource_hints', 'franco_resource_hints', 10, 2 );
+
+/**
+ * Add Subresource Integrity (SRI) to external Font Awesome stylesheet.
+ *
+ * @param string $html Tag HTML markup.
+ * @param string $handle Script/style handle.
+ * @return string Modified markup.
+ */
+function franco_add_font_awesome_attributes( $html, $handle ) {
+	if ( 'font-awesome' === $handle ) {
+		return str_replace(
+			" id='font-awesome-css'",
+			" integrity=\"sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==\" crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" id='font-awesome-css'",
+			$html
+		);
+	}
+	return $html;
+}
+add_filter( 'style_loader_tag', 'franco_add_font_awesome_attributes', 10, 2 );
 
