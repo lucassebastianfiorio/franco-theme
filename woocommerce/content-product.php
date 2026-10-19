@@ -33,7 +33,7 @@ $brand = ( ! empty( $terms ) && ! is_wp_error( $terms ) ) ? mb_strtoupper( $term
 <div <?php wc_product_class( 'product-card', $product ); ?> data-product-id="<?php echo esc_attr( $product_id ); ?>">
 	<span class="product-badge"><?php echo esc_html( $badge_text ); ?></span>
 
-	<button class="fav-btn" onclick="toggleWishlist(<?php echo esc_attr( $product_id ); ?>)" title="<?php esc_attr_e( 'Mis Favoritos', 'franco-theme' ); ?>">
+	<button class="fav-btn" data-product-id="<?php echo esc_attr( $product_id ); ?>" title="<?php esc_attr_e( 'Mis Favoritos', 'franco-theme' ); ?>">
 		<i class="fa-regular fa-heart"></i>
 	</button>
 
@@ -64,7 +64,7 @@ $brand = ( ! empty( $terms ) && ! is_wp_error( $terms ) ) ? mb_strtoupper( $term
 			?>
 		</a>
 		<div class="quick-view-overlay">
-			<button class="quick-view-btn" onclick="openQuickView(<?php echo esc_attr( $product_id ); ?>)">
+			<button class="quick-view-btn" data-product-id="<?php echo esc_attr( $product_id ); ?>">
 				<i class="fa-solid fa-eye"></i> <?php esc_html_e( 'Vista Rápida', 'franco-theme' ); ?>
 			</button>
 		</div>
@@ -91,7 +91,7 @@ $brand = ( ! empty( $terms ) && ! is_wp_error( $terms ) ) ? mb_strtoupper( $term
 			<span class="price-current"><?php echo esc_html( $price_current ); ?></span>
 		</div>
 
-		<button class="add-cart-btn" onclick="<?php echo $product->is_type( 'variable' ) ? 'openQuickView' : 'francoAddToCart'; ?>(<?php echo absint( $product_id ); ?>)">
+		<button class="add-cart-btn" data-product-id="<?php echo esc_attr( $product_id ); ?>" data-type="<?php echo esc_attr( $product->get_type() ); ?>">
 			<i class="fa-solid fa-cart-shopping"></i> <?php esc_html_e( 'Agregar al Carrito', 'franco-theme' ); ?>
 		</button>
 	</div>

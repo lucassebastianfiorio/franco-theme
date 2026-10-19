@@ -33,10 +33,10 @@ do_action( 'woocommerce_before_customer_login_form' );
 
 		<?php if ( $enable_registration ) : ?>
 			<div class="franco-auth-tabs" role="tablist">
-				<button type="button" class="auth-tab-btn <?php echo ( 'login' === $active_tab ) ? 'active' : ''; ?>" id="tab-btn-login" onclick="francoSwitchAuthTab('login')" role="tab" aria-selected="<?php echo ( 'login' === $active_tab ) ? 'true' : 'false'; ?>">
+				<button type="button" class="auth-tab-btn <?php echo ( 'login' === $active_tab ) ? 'active' : ''; ?>" id="tab-btn-login" data-tab="login" role="tab" aria-selected="<?php echo ( 'login' === $active_tab ) ? 'true' : 'false'; ?>">
 					<i class="fa-regular fa-user"></i> <?php esc_html_e( 'Iniciar Sesión', 'franco-theme' ); ?>
 				</button>
-				<button type="button" class="auth-tab-btn <?php echo ( 'register' === $active_tab ) ? 'active' : ''; ?>" id="tab-btn-register" onclick="francoSwitchAuthTab('register')" role="tab" aria-selected="<?php echo ( 'register' === $active_tab ) ? 'true' : 'false'; ?>">
+				<button type="button" class="auth-tab-btn <?php echo ( 'register' === $active_tab ) ? 'active' : ''; ?>" id="tab-btn-register" data-tab="register" role="tab" aria-selected="<?php echo ( 'register' === $active_tab ) ? 'true' : 'false'; ?>">
 					<i class="fa-solid fa-user-plus"></i> <?php esc_html_e( 'Crear Cuenta', 'franco-theme' ); ?>
 				</button>
 			</div>
@@ -70,7 +70,7 @@ do_action( 'woocommerce_before_customer_login_form' );
 					<div class="input-with-icon input-password-wrap">
 						<i class="fa-solid fa-lock input-icon"></i>
 						<input class="woocommerce-Input woocommerce-Input--text input-text form-input password-input" type="password" name="password" id="password" autocomplete="current-password" placeholder="••••••••" required />
-						<button type="button" class="btn-toggle-password" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
+						<button type="button" class="btn-toggle-password" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
 							<i class="fa-regular fa-eye"></i>
 						</button>
 					</div>
@@ -134,7 +134,7 @@ do_action( 'woocommerce_before_customer_login_form' );
 						<div class="input-with-icon input-password-wrap">
 							<i class="fa-solid fa-lock input-icon"></i>
 							<input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-input password-input" name="password" id="reg_password" autocomplete="new-password" placeholder="<?php esc_attr_e( 'Mínimo 8 caracteres', 'franco-theme' ); ?>" required />
-							<button type="button" class="btn-toggle-password" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
+							<button type="button" class="btn-toggle-password" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
 								<i class="fa-regular fa-eye"></i>
 							</button>
 						</div>

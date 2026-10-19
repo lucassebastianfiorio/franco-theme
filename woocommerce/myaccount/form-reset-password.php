@@ -37,7 +37,7 @@ do_action( 'woocommerce_before_reset_password_form' );
 				<div class="input-with-icon input-password-wrap">
 					<i class="fa-solid fa-lock input-icon"></i>
 					<input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-input password-input" name="password_1" id="password_1" autocomplete="new-password" placeholder="<?php esc_attr_e( 'Nueva contraseña', 'franco-theme' ); ?>" required />
-					<button type="button" class="btn-toggle-password" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
+					<button type="button" class="btn-toggle-password" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
 						<i class="fa-regular fa-eye"></i>
 					</button>
 				</div>
@@ -50,7 +50,7 @@ do_action( 'woocommerce_before_reset_password_form' );
 				<div class="input-with-icon input-password-wrap">
 					<i class="fa-solid fa-lock input-icon"></i>
 					<input type="password" class="woocommerce-Input woocommerce-Input--text input-text form-input password-input" name="password_2" id="password_2" autocomplete="new-password" placeholder="<?php esc_attr_e( 'Repetí tu nueva contraseña', 'franco-theme' ); ?>" required />
-					<button type="button" class="btn-toggle-password" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
+					<button type="button" class="btn-toggle-password" aria-label="<?php esc_attr_e( 'Mostrar u ocultar contraseña', 'franco-theme' ); ?>" tabindex="-1">
 						<i class="fa-regular fa-eye"></i>
 					</button>
 				</div>

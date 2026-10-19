@@ -102,7 +102,7 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 		<div class="nav-actions">
 			<!-- Location / Postal Code Selector -->
 			<div class="header-location-wrap" id="header-location-wrap">
-				<button type="button" class="header-location-btn" id="header-location-btn" onclick="francoToggleLocationPopover(event)" title="<?php esc_attr_e( 'Elegí tu código postal para envíos', 'franco-theme' ); ?>">
+				<button type="button" class="header-location-btn" id="header-location-btn" title="<?php esc_attr_e( 'Elegí tu código postal para envíos', 'franco-theme' ); ?>">
 					<i class="fa-solid fa-location-dot"></i>
 					<span class="location-label-text" id="header-location-text">
 						<?php
@@ -114,13 +114,13 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 						?>
 					</span>
 				</button>
-				<div class="header-location-popover is-hidden" id="header-location-popover" onclick="event.stopPropagation()">
+				<div class="header-location-popover is-hidden" id="header-location-popover">
 					<div class="location-popover-title">
 						<i class="fa-solid fa-truck-fast text-primary"></i>
 						<span><?php esc_html_e( '¿Dónde recibís tu compra?', 'franco-theme' ); ?></span>
 					</div>
 					<p class="location-popover-desc"><?php esc_html_e( 'Ayudanos a localizarte para verificar disponibilidad y cobertura en tu zona', 'franco-theme' ); ?></p>
-					<form class="location-popover-form" onsubmit="francoSaveHeaderLocation(event)">
+					<form class="location-popover-form" id="header-location-form">
 						<input type="text" id="header-location-input" class="form-input" placeholder="Ej: 1650" maxlength="8" value="<?php echo esc_attr( $current_cp ); ?>" autocomplete="postal-code" required>
 						<button type="submit" class="btn-primary"><?php esc_html_e( 'Guardar', 'franco-theme' ); ?></button>
 					</form>
@@ -147,10 +147,10 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 			?>
 			<div class="header-user-wrap" id="header-user-wrap">
 				<?php if ( $is_user_logged ) : ?>
-					<button type="button" class="action-btn header-user-btn logged-in" id="header-user-btn" onclick="francoToggleUserDropdown(event)" aria-label="<?php printf( esc_attr__( 'Mi Cuenta (%s)', 'franco-theme' ), esc_attr( $display_first_name ) ); ?>" title="<?php printf( esc_attr__( 'Mi Cuenta (%s)', 'franco-theme' ), esc_attr( $display_first_name ) ); ?>" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="action-btn header-user-btn logged-in" id="header-user-btn" aria-label="<?php printf( esc_attr__( 'Mi Cuenta (%s)', 'franco-theme' ), esc_attr( $display_first_name ) ); ?>" title="<?php printf( esc_attr__( 'Mi Cuenta (%s)', 'franco-theme' ), esc_attr( $display_first_name ) ); ?>" aria-haspopup="true" aria-expanded="false">
 						<i class="fa-solid fa-user-check"></i>
 					</button>
-					<div class="header-user-dropdown is-hidden" id="header-user-dropdown" onclick="event.stopPropagation()">
+					<div class="header-user-dropdown is-hidden" id="header-user-dropdown">
 						<div class="user-dropdown-header">
 							<strong><?php echo esc_html( $current_user->display_name ); ?></strong>
 							<span><?php echo esc_html( $current_user->user_email ); ?></span>
@@ -165,10 +165,10 @@ $favoritos_url = $fav_page_id ? get_permalink( $fav_page_id ) : home_url( '/favo
 						</ul>
 					</div>
 				<?php else : ?>
-					<button type="button" class="action-btn header-user-btn" id="header-user-btn" onclick="francoToggleUserDropdown(event)" aria-label="<?php esc_attr_e( 'Mi Cuenta / Ingresar', 'franco-theme' ); ?>" title="<?php esc_attr_e( 'Mi Cuenta / Ingresar', 'franco-theme' ); ?>" aria-haspopup="true" aria-expanded="false">
+					<button type="button" class="action-btn header-user-btn" id="header-user-btn" aria-label="<?php esc_attr_e( 'Mi Cuenta / Ingresar', 'franco-theme' ); ?>" title="<?php esc_attr_e( 'Mi Cuenta / Ingresar', 'franco-theme' ); ?>" aria-haspopup="true" aria-expanded="false">
 						<i class="fa-regular fa-user"></i>
 					</button>
-					<div class="header-user-dropdown is-hidden" id="header-user-dropdown" onclick="event.stopPropagation()">
+					<div class="header-user-dropdown is-hidden" id="header-user-dropdown">
 						<div class="user-dropdown-guest">
 							<p class="user-dropdown-welcome"><strong><?php esc_html_e( '¡Te damos la bienvenida!', 'franco-theme' ); ?></strong></p>
 							<p class="user-dropdown-desc text-muted"><?php esc_html_e( 'Ingresá a tu cuenta para ver tus compras y gestionar tus datos.', 'franco-theme' ); ?></p>

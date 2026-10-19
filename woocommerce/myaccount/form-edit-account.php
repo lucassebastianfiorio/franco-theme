@@ -79,7 +79,7 @@ do_action( 'woocommerce_before_edit_account_form' );
 				<div class="franco-input-wrapper">
 					<i class="fas fa-lock input-icon" aria-hidden="true"></i>
 					<input type="password" class="franco-input password-input" name="password_current" id="password_current" autocomplete="current-password" />
-					<button type="button" class="franco-password-toggle" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
+					<button type="button" class="franco-password-toggle" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
 						<i class="far fa-eye" aria-hidden="true"></i>
 					</button>
 				</div>
@@ -89,20 +89,20 @@ do_action( 'woocommerce_before_edit_account_form' );
 				<div class="franco-input-group">
 					<label for="password_1"><?php esc_html_e( 'Nueva contraseña', 'franco' ); ?></label>
 					<div class="franco-input-wrapper">
-						<i class="fas fa-key input-icon" aria-hidden="true"></i>
-						<input type="password" class="franco-input password-input" name="password_1" id="password_1" autocomplete="new-password" />
-						<button type="button" class="franco-password-toggle" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
-							<i class="far fa-eye" aria-hidden="true"></i>
-						</button>
-					</div>
+					<i class="fas fa-key input-icon" aria-hidden="true"></i>
+					<input type="password" class="franco-input password-input" name="password_1" id="password_1" autocomplete="new-password" />
+					<button type="button" class="franco-password-toggle" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
+						<i class="far fa-eye" aria-hidden="true"></i>
+					</button>
 				</div>
+			</div>
 
 				<div class="franco-input-group">
 					<label for="password_2"><?php esc_html_e( 'Confirmar nueva contraseña', 'franco' ); ?></label>
 					<div class="franco-input-wrapper">
 						<i class="fas fa-check-double input-icon" aria-hidden="true"></i>
 						<input type="password" class="franco-input password-input" name="password_2" id="password_2" autocomplete="new-password" />
-						<button type="button" class="franco-password-toggle" onclick="francoTogglePasswordVisibility(this)" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
+						<button type="button" class="franco-password-toggle" aria-label="<?php esc_attr_e( 'Ver contraseña', 'franco' ); ?>">
 							<i class="far fa-eye" aria-hidden="true"></i>
 						</button>
 					</div>

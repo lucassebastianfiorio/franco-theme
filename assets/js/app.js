@@ -16,27 +16,35 @@ function sanitizeWishlist(list) {
 }
 
 function readStoredWishlist() {
-  let fromCookie = null;
   try {
-    fromCookie = getWishlistCookie();
+    const local = localStorage.getItem('franco_wishlist');
+    if (local) {
+      return sanitizeWishlist(JSON.parse(local));
+    }
   } catch (e) {
-    fromCookie = null;
+    // localStorage inaccessible
   }
-  if (Array.isArray(fromCookie)) return sanitizeWishlist(fromCookie);
 
-  try {
-    return sanitizeWishlist(JSON.parse(localStorage.getItem('franco_wishlist')));
-  } catch (e) {
-    return [];
+  // Fallback: Si existía una cookie antigua, migrarla a localStorage y eliminar la cookie
+  const fromCookie = getWishlistCookie();
+  if (Array.isArray(fromCookie) && fromCookie.length > 0) {
+    const clean = sanitizeWishlist(fromCookie);
+    try {
+      localStorage.setItem('franco_wishlist', JSON.stringify(clean));
+    } catch (e) {}
+    // Eliminar la cookie obsoleta
+    document.cookie = 'franco_wishlist=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    return clean;
   }
+
+  return [];
 }
 
 function persistWishlist(list) {
-  setWishlistCookie(list);
   try {
     localStorage.setItem('franco_wishlist', JSON.stringify(list));
   } catch (e) {
-    // localStorage may be unavailable (private mode / quota); the cookie still works.
+    // Quota exceeded or private browsing
   }
 }
 
@@ -57,15 +65,7 @@ function getWishlistCookie() {
   return null;
 }
 
-function setWishlistCookie(val, days = 30) {
-  const date = new Date();
-  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  const expires = "; expires=" + date.toUTCString();
-  document.cookie = "franco_wishlist=" + encodeURIComponent(JSON.stringify(val)) + expires + "; path=/";
-}
-
 let wishlist = readStoredWishlist();
-persistWishlist(wishlist);
 
 document.addEventListener('DOMContentLoaded', () => {
   setupUIEventListeners();
@@ -73,6 +73,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupUIEventListeners() {
+  // Event Delegation for Wishlist and Quick-View buttons across dynamic product grids
+  document.addEventListener('click', (e) => {
+    const favBtn = e.target.closest('.fav-btn');
+    if (favBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pId = favBtn.getAttribute('data-product-id') || (favBtn.closest('.product-card') ? favBtn.closest('.product-card').getAttribute('data-product-id') : null);
+      if (pId) toggleWishlist(pId);
+      return;
+    }
+
+    const qvBtn = e.target.closest('.quick-view-btn');
+    if (qvBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pId = qvBtn.getAttribute('data-product-id') || (qvBtn.closest('.product-card') ? qvBtn.closest('.product-card').getAttribute('data-product-id') : null);
+      if (pId && typeof window.openQuickView === 'function') {
+        window.openQuickView(pId);
+      }
+      return;
+    }
+  });
+
   // Cart Drawer Toggles
   const cartBtn = document.getElementById('cart-btn');
   const cartClose = document.getElementById('cart-close');

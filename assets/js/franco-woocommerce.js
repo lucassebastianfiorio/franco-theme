@@ -2034,6 +2034,50 @@
     initStatCardCounters();
     initScrollRevealAnimations();
 
+    // Delegated click listeners replacing inline handlers
+    $(document).on('click', '#header-location-btn', function(e) {
+      if (typeof window.francoToggleLocationPopover === 'function') {
+        window.francoToggleLocationPopover(e);
+      }
+    });
+
+    $(document).on('click', '#header-location-popover, #header-user-dropdown', function(e) {
+      e.stopPropagation();
+    });
+
+    $(document).on('click', '#header-user-btn', function(e) {
+      if (typeof window.francoToggleUserDropdown === 'function') {
+        window.francoToggleUserDropdown(e);
+      }
+    });
+
+    $(document).on('click', '.btn-toggle-password, .franco-password-toggle', function(e) {
+      e.preventDefault();
+      if (typeof window.francoTogglePasswordVisibility === 'function') {
+        window.francoTogglePasswordVisibility(this);
+      }
+    });
+
+    $(document).on('click', '.auth-tab-btn', function(e) {
+      e.preventDefault();
+      const tab = $(this).attr('data-tab') || ($(this).attr('id') === 'tab-btn-register' ? 'register' : 'login');
+      if (typeof window.francoSwitchAuthTab === 'function') {
+        window.francoSwitchAuthTab(tab);
+      }
+    });
+
+    $(document).on('click', '.add-cart-btn', function(e) {
+      const $btn = $(this);
+      const isVariable = $btn.attr('data-type') === 'variable' || $btn.hasClass('is-variable');
+      const pId = $btn.attr('data-product-id') || ($btn.closest('.product-card').length ? $btn.closest('.product-card').attr('data-product-id') : null);
+      if (!pId) return;
+      if (isVariable && typeof window.openQuickView === 'function') {
+        window.openQuickView(pId);
+      } else if (typeof window.francoAddToCart === 'function') {
+        window.francoAddToCart(pId);
+      }
+    });
+
     // Sync postal code everywhere on load
     const savedCp = getSavedPostcode();
     if (savedCp) {
