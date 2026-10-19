@@ -1468,6 +1468,43 @@ add_action( 'woocommerce_single_product_summary', function() {
  * 14. Customer Postal Code Management & Dynamic Shipping Calculation Handlers
  */
 
+/**
+ * Validar y sanitizar código postal de Argentina (4 números o CPA nuevo).
+ *
+ * @param string $postcode Código postal ingresado.
+ * @return string Código postal sanitizado o string vacío si no es válido.
+ */
+function franco_validate_ar_postcode( $postcode ) {
+	$clean = strtoupper( trim( preg_replace( '/[^A-Za-z0-9]/', '', (string) $postcode ) ) );
+	if ( strlen( $clean ) < 4 || strlen( $clean ) > 8 ) {
+		return '';
+	}
+	if ( ! preg_match( '/^[A-Z]?\d{4}[A-Z]{0,3}$/', $clean ) ) {
+		return '';
+	}
+	return $clean;
+}
+
+/**
+ * Guardar cookie segura para el código postal del visitante.
+ *
+ * @param string $postcode Código postal válido.
+ */
+function franco_set_postcode_cookie( $postcode ) {
+	if ( headers_sent() ) {
+		return;
+	}
+	$options = array(
+		'expires'  => time() + 30 * DAY_IN_SECONDS,
+		'path'     => COOKIEPATH ? COOKIEPATH : '/',
+		'domain'   => COOKIE_DOMAIN,
+		'secure'   => is_ssl(),
+		'httponly' => true,
+		'samesite' => 'Lax',
+	);
+	setcookie( 'franco_postcode', $postcode, $options );
+}
+
 // Automatically sync customer postcode from persistent cookie upon WooCommerce init
 function franco_sync_customer_postcode_from_cookie() {
 	if ( ! class_exists( 'WooCommerce' ) || ! WC()->customer ) {
@@ -1475,11 +1512,13 @@ function franco_sync_customer_postcode_from_cookie() {
 	}
 	$current_postcode = WC()->customer->get_shipping_postcode();
 	if ( empty( $current_postcode ) && ! empty( $_COOKIE['franco_postcode'] ) ) {
-		$cp = sanitize_text_field( wp_unslash( $_COOKIE['franco_postcode'] ) );
-		WC()->customer->set_shipping_country( 'AR' );
-		WC()->customer->set_billing_country( 'AR' );
-		WC()->customer->set_shipping_postcode( $cp );
-		WC()->customer->set_billing_postcode( $cp );
+		$cp = franco_validate_ar_postcode( wp_unslash( $_COOKIE['franco_postcode'] ) );
+		if ( ! empty( $cp ) ) {
+			WC()->customer->set_shipping_country( 'AR' );
+			WC()->customer->set_billing_country( 'AR' );
+			WC()->customer->set_shipping_postcode( $cp );
+			WC()->customer->set_billing_postcode( $cp );
+		}
 	}
 }
 add_action( 'woocommerce_init', 'franco_sync_customer_postcode_from_cookie' );
@@ -1564,11 +1603,14 @@ function franco_wc_render_shipping_methods_html() {
  * AJAX: Set Customer Postcode and recalculate shipping and totals
  */
 function franco_wc_ajax_set_customer_postcode() {
-	$postcode = isset( $_POST['postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['postcode'] ) ) : '';
-	$state    = isset( $_POST['state'] ) ? sanitize_text_field( wp_unslash( $_POST['state'] ) ) : '';
+	check_ajax_referer( 'franco_wc_nonce', 'nonce' );
+
+	$raw_postcode = isset( $_POST['postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['postcode'] ) ) : '';
+	$postcode     = franco_validate_ar_postcode( $raw_postcode );
+	$state        = isset( $_POST['state'] ) ? sanitize_text_field( wp_unslash( $_POST['state'] ) ) : '';
 
 	if ( empty( $postcode ) ) {
-		wp_send_json_error( array( 'message' => __( 'Por favor ingresá un código postal.', 'franco-theme' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Por favor ingresá un código postal argentino válido (ej: 1414).', 'franco-theme' ) ) );
 	}
 
 	if ( class_exists( 'WooCommerce' ) ) {
@@ -1578,15 +1620,16 @@ function franco_wc_ajax_set_customer_postcode() {
 			WC()->customer->set_shipping_postcode( $postcode );
 			WC()->customer->set_billing_postcode( $postcode );
 			if ( ! empty( $state ) ) {
-				WC()->customer->set_shipping_state( $state );
-				WC()->customer->set_billing_state( $state );
+				$states = ( WC()->countries ) ? WC()->countries->get_states( 'AR' ) : array();
+				if ( is_array( $states ) && isset( $states[ $state ] ) ) {
+					WC()->customer->set_shipping_state( $state );
+					WC()->customer->set_billing_state( $state );
+				}
 			}
 			WC()->customer->save();
 		}
 
-		if ( ! headers_sent() ) {
-			setcookie( 'franco_postcode', $postcode, time() + 30 * DAY_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN );
-		}
+		franco_set_postcode_cookie( $postcode );
 
 		if ( WC()->cart && ! WC()->cart->is_empty() ) {
 			WC()->cart->calculate_shipping();
@@ -1614,11 +1657,19 @@ add_action( 'wp_ajax_nopriv_franco_set_customer_postcode', 'franco_wc_ajax_set_c
  * AJAX: Calculate shipping options for a single product preview
  */
 function franco_wc_ajax_calculate_product_shipping() {
-	$product_id = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
-	$postcode   = isset( $_POST['postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['postcode'] ) ) : '';
+	check_ajax_referer( 'franco_wc_nonce', 'nonce' );
+
+	$product_id   = isset( $_POST['product_id'] ) ? absint( $_POST['product_id'] ) : 0;
+	$raw_postcode = isset( $_POST['postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['postcode'] ) ) : '';
+	$postcode     = franco_validate_ar_postcode( $raw_postcode );
 
 	if ( ! $product_id || empty( $postcode ) ) {
-		wp_send_json_error( array( 'message' => __( 'Código postal no válido.', 'franco-theme' ) ) );
+		wp_send_json_error( array( 'message' => __( 'Código postal o producto no válido.', 'franco-theme' ) ) );
+	}
+
+	$product = wc_get_product( $product_id );
+	if ( ! $product || ! $product->is_visible() || 'publish' !== $product->get_status() ) {
+		wp_send_json_error( array( 'message' => __( 'Producto no disponible.', 'franco-theme' ) ) );
 	}
 
 	if ( class_exists( 'WooCommerce' ) ) {
@@ -1630,14 +1681,17 @@ function franco_wc_ajax_calculate_product_shipping() {
 			WC()->customer->save();
 		}
 
-		if ( ! headers_sent() ) {
-			setcookie( 'franco_postcode', $postcode, time() + 30 * DAY_IN_SECONDS, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN );
-		}
+		franco_set_postcode_cookie( $postcode );
 	}
 
-	$product = wc_get_product( $product_id );
-	if ( ! $product ) {
-		wp_send_json_error( array( 'message' => __( 'Producto no encontrado.', 'franco-theme' ) ) );
+	// Cache shipping calculation for this product + postcode for 10 minutes
+	$shipping_cache_key = 'franco_ship_' . $product_id . '_' . md5( $postcode );
+	$cached_rates       = get_transient( $shipping_cache_key );
+	if ( false !== $cached_rates && is_array( $cached_rates ) ) {
+		wp_send_json_success( array(
+			'postcode' => $postcode,
+			'rates'    => $cached_rates,
+		) );
 	}
 
 	$package = array(
@@ -1682,6 +1736,8 @@ function franco_wc_ajax_calculate_product_shipping() {
 			);
 		}
 	}
+
+	set_transient( $shipping_cache_key, $rates, 10 * MINUTE_IN_SECONDS );
 
 	wp_send_json_success( array(
 		'postcode' => $postcode,
