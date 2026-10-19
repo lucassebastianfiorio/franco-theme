@@ -3,14 +3,14 @@
  * Franco Deportes Theme Functions
  *
  * @package FrancoTheme
- * @version 3.9.1
+ * @version 3.10.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-define( 'FRANCO_THEME_VERSION', '3.9.1' );
+define( 'FRANCO_THEME_VERSION', '3.10.0' );
 define( 'FRANCO_THEME_DIR', get_template_directory() );
 define( 'FRANCO_THEME_URI', get_template_directory_uri() );
 
