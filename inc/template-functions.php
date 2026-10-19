@@ -283,6 +283,30 @@ function franco_find_attribute_taxonomy( $attribute_key ) {
 }
 
 /**
+ * Obtener la versión global de caché del catálogo.
+ *
+ * @return int
+ */
+function franco_get_cache_version() {
+	$ver = get_option( 'franco_catalog_cache_ver' );
+	if ( false === $ver ) {
+		$ver = 1;
+		update_option( 'franco_catalog_cache_ver', $ver, false );
+	}
+	return (int) $ver;
+}
+
+/**
+ * Generar clave de transient versionada para el catálogo.
+ *
+ * @param string $prefix Prefijo descriptivo del transient.
+ * @return string Clave con versión.
+ */
+function franco_cache_key( $prefix ) {
+	return 'franco_' . $prefix . '_v' . franco_get_cache_version();
+}
+
+/**
  * Query term IDs associated with published, in-stock products that have a valid price > 0.
  *
  * @param string $taxonomy Taxonomy name e.g. 'product_cat', 'pa_talle', 'pa_color', 'pa_sexo', 'pa_marca'.
@@ -291,7 +315,7 @@ function franco_find_attribute_taxonomy( $attribute_key ) {
 function franco_get_visible_product_term_ids( $taxonomy = 'product_cat' ) {
 	global $wpdb;
 
-	$cache_key = 'franco_visible_term_ids_' . sanitize_key( $taxonomy );
+	$cache_key = franco_cache_key( 'vterms_' . sanitize_key( $taxonomy ) );
 	$cached    = get_transient( $cache_key );
 	if ( false !== $cached && is_array( $cached ) ) {
 		return $cached;
@@ -420,7 +444,7 @@ function franco_get_visible_subcategories( $parent_id_or_slug ) {
 function franco_get_min_max_prices() {
 	global $wpdb;
 
-	$cache_key = 'franco_min_max_prices';
+	$cache_key = franco_cache_key( 'min_max_prices' );
 	$cached    = get_transient( $cache_key );
 	if ( false !== $cached && is_array( $cached ) && isset( $cached['min'], $cached['max'] ) ) {
 		return $cached;
@@ -468,7 +492,7 @@ function franco_get_instock_terms( $taxonomy ) {
 		return array();
 	}
 
-	$transient_key = 'franco_instock_terms_' . sanitize_key( $taxonomy );
+	$transient_key = franco_cache_key( 'instock_' . sanitize_key( $taxonomy ) );
 	$cached_terms  = get_transient( $transient_key );
 
 	if ( false !== $cached_terms ) {
@@ -543,11 +567,17 @@ function franco_format_talle_terms( $terms ) {
 
 
 /**
- * Invalidate In-Stock Terms Transient Cache
+ * Invalidate In-Stock Terms Transient Cache via version bump (with shutdown debounce).
+ * Compatible with Redis, Memcached and traditional MySQL transients without table locks.
  */
 function franco_clear_instock_terms_cache() {
-	global $wpdb;
-	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_franco_%' OR option_name LIKE '_transient_timeout_franco_%'" );
+	static $scheduled = false;
+	if ( ! $scheduled ) {
+		$scheduled = true;
+		add_action( 'shutdown', function() {
+			update_option( 'franco_catalog_cache_ver', time(), false );
+		} );
+	}
 }
 add_action( 'save_post_product', 'franco_clear_instock_terms_cache' );
 add_action( 'woocommerce_update_product', 'franco_clear_instock_terms_cache' );
