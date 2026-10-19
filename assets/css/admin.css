@@ -1,0 +1,84 @@
+/* ==========================================================================
+   FRANCO DEPORTES - WP ADMIN SETTINGS PAGE (admin.css)
+   Loaded only on the toplevel_page_franco-settings screen.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   inc/admin-settings.php - wp-admin settings page
+   -------------------------------------------------------------------------- */
+
+.wrap.franco-admin {
+  max-width: 1000px;
+  margin-top: 20px;
+}
+
+.wrap.franco-admin h1.franco-admin-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrap.franco-admin .franco-admin-title .franco-admin-title-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #e63946;
+}
+
+.wrap.franco-admin .franco-admin-notice {
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  padding: 18px 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.wrap.franco-admin .franco-admin-notice-title {
+  font-size: 1rem;
+  color: #1e40af;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.wrap.franco-admin .franco-admin-notice-text {
+  font-size: 0.85rem;
+  color: #3b82f6;
+}
+
+.wrap.franco-admin .button.button-primary.franco-admin-create-btn {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  padding: 6px 16px;
+  height: auto;
+}
+
+.wrap.franco-admin form.franco-admin-form {
+  background: #ffffff;
+  padding: 24px 30px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.wrap.franco-admin h2.franco-admin-section-title {
+  border-bottom: 2px solid #e63946;
+  padding-bottom: 8px;
+  font-size: 1.2rem;
+  color: #0f172a;
+}
+
+.wrap.franco-admin h2.franco-admin-section-title-spaced {
+  border-bottom: 2px solid #e63946;
+  padding-bottom: 8px;
+  font-size: 1.2rem;
+  color: #0f172a;
+  margin-top: 30px;
+}

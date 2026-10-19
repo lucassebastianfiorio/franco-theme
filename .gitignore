@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Logs & temp
+*.log
+*.tmp
+.cache/
+
+# Node / Vendor if present
+node_modules/
+vendor/
