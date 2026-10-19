@@ -121,7 +121,7 @@ while ( have_posts() ) :
 			<div class="product-gallery-layout">
 				<div class="product-gallery-main">
 					<div class="product-gallery-viewport" onclick="openGalleryLightbox(window.singleProductActiveIdx || 0)" style="cursor: zoom-in;" title="<?php esc_attr_e( 'Clic para ampliar imagen', 'franco-theme' ); ?>">
-						<img id="main-product-img" src="<?php echo esc_url( $gallery_images[0] ); ?>" alt="<?php echo esc_attr( $product_name ); ?>" class="gallery-main-img" fetchpriority="high" decoding="async">
+						<img id="main-product-img" src="<?php echo esc_url( $gallery_images[0] ); ?>" alt="<?php echo esc_attr( $product_name ); ?>" class="gallery-main-img" width="600" height="600" fetchpriority="high" decoding="async">
 					</div>
 					<?php if ( count( $gallery_images ) > 1 ) : ?>
 						<button type="button" class="gallery-nav-btn prev" onclick="navigateProductGallery(-1)" aria-label="Anterior">
@@ -137,7 +137,7 @@ while ( have_posts() ) :
 					<div class="product-gallery-thumbs" id="product-gallery-thumbs">
 						<?php foreach ( $gallery_images as $idx => $img_url ) : ?>
 							<div class="gallery-thumb-item <?php echo ( 0 === $idx ) ? 'active' : ''; ?>" onclick="selectProductGalleryImage(<?php echo $idx; ?>)">
-								<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $product_name ); ?> mini <?php echo $idx + 1; ?>">
+								<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $product_name ); ?> mini <?php echo $idx + 1; ?>" width="72" height="72" loading="lazy" decoding="async">
 							</div>
 						<?php endforeach; ?>
 					</div>
@@ -316,7 +316,7 @@ while ( have_posts() ) :
 		<button type="button" class="gallery-lightbox-close" onclick="closeGalleryLightbox()" aria-label="<?php esc_attr_e( 'Cerrar', 'franco-theme' ); ?>"><i class="fa-solid fa-xmark"></i></button>
 		
 		<div class="gallery-lightbox-content">
-			<img id="lightbox-main-img" src="" alt="<?php echo esc_attr( $product_name ); ?> ampliada" class="lightbox-img">
+			<img id="lightbox-main-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="<?php echo esc_attr( $product_name ); ?> ampliada" class="lightbox-img">
 		</div>
 
 		<?php if ( count( $gallery_images ) > 1 ) : ?>

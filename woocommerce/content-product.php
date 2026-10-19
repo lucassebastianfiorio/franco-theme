@@ -40,15 +40,25 @@ $brand = ( ! empty( $terms ) && ! is_wp_error( $terms ) ) ? mb_strtoupper( $term
 	<div class="product-img-wrap">
 		<a href="<?php echo esc_url( $product_url ); ?>">
 			<?php
+			static $franco_card_index = 0;
+			$franco_card_index++;
+
+			$img_loading  = ( $franco_card_index <= 4 ) ? 'eager' : 'lazy';
+			$img_priority = ( 1 === $franco_card_index && ( is_shop() || is_product_taxonomy() ) ) ? 'high' : 'auto';
+
 			if ( $thumb_id ) {
-				echo wp_get_attachment_image( $thumb_id, 'franco-product-card', false, array(
+				$custom_attrs = array(
 					'alt'      => $product_name,
-					'loading'  => 'lazy',
+					'loading'  => $img_loading,
 					'decoding' => 'async',
-				) );
+				);
+				if ( 'high' === $img_priority ) {
+					$custom_attrs['fetchpriority'] = 'high';
+				}
+				echo wp_get_attachment_image( $thumb_id, 'franco-product-card', false, $custom_attrs );
 			} else {
 				?>
-				<img src="<?php echo esc_url( wc_placeholder_img_src( 'franco-product-card' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>" width="400" height="400" loading="lazy" decoding="async">
+				<img src="<?php echo esc_url( wc_placeholder_img_src( 'franco-product-card' ) ); ?>" alt="<?php echo esc_attr( $product_name ); ?>" width="400" height="400" loading="<?php echo esc_attr( $img_loading ); ?>" decoding="async">
 				<?php
 			}
 			?>

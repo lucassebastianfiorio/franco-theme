@@ -1060,14 +1060,14 @@ function franco_wc_ajax_get_quick_view_product() {
 	$description = $post && $post->post_content ? $post->post_content : $product->get_short_description();
 
 	$gallery = array();
-	$main_img = get_the_post_thumbnail_url( $product_id, 'large' ) ?: wc_placeholder_img_src();
+	$main_img = get_the_post_thumbnail_url( $product_id, 'medium_large' ) ?: wc_placeholder_img_src();
 	if ( $main_img ) {
 		$gallery[] = $main_img;
 	}
 	$attachment_ids = $product->get_gallery_image_ids();
 	if ( ! empty( $attachment_ids ) ) {
 		foreach ( $attachment_ids as $att_id ) {
-			$att_url = wp_get_attachment_image_url( $att_id, 'large' );
+			$att_url = wp_get_attachment_image_url( $att_id, 'medium_large' );
 			if ( $att_url && ! in_array( $att_url, $gallery, true ) ) {
 				$gallery[] = $att_url;
 			}
