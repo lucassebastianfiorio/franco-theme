@@ -11,13 +11,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * 1. Register DNI / CUIT Custom Field in WooCommerce Checkout
+ * 1. Register DNI / CUIT Custom Field in WooCommerce Checkout & Validation
  */
+function franco_clean_dni_cuit( $value ) {
+	return preg_replace( '/\D/', '', (string) $value );
+}
+
+function franco_format_dni_cuit( $value ) {
+	$clean = franco_clean_dni_cuit( $value );
+	if ( 11 === strlen( $clean ) ) {
+		return substr( $clean, 0, 2 ) . '-' . substr( $clean, 2, 8 ) . '-' . substr( $clean, 10, 1 );
+	}
+	if ( strlen( $clean ) >= 6 && strlen( $clean ) <= 8 ) {
+		return number_format( (int) $clean, 0, '', '.' );
+	}
+	return $value;
+}
+
+function franco_validate_dni_cuit( $value ) {
+	$clean = franco_clean_dni_cuit( $value );
+	$len   = strlen( $clean );
+
+	if ( empty( $clean ) ) {
+		return new WP_Error( 'dni_required', __( 'Por favor ingresa tu DNI o CUIT.', 'franco-theme' ) );
+	}
+
+	// DNI: 6 a 8 dígitos numéricos
+	if ( $len >= 6 && $len <= 8 ) {
+		return true;
+	}
+
+	// CUIT/CUIL: 11 dígitos con validación de dígito verificador módulo 11
+	if ( 11 === $len ) {
+		$multipliers = array( 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 );
+		$sum         = 0;
+		for ( $i = 0; $i < 10; $i++ ) {
+			$sum += (int) $clean[ $i ] * $multipliers[ $i ];
+		}
+		$mod   = 11 - ( $sum % 11 );
+		$digit = ( 11 === $mod ) ? 0 : ( ( 10 === $mod ) ? 9 : $mod );
+
+		if ( $digit === (int) $clean[10] ) {
+			return true;
+		}
+		return new WP_Error( 'cuit_invalid', __( 'El CUIT/CUIL ingresado no es válido.', 'franco-theme' ) );
+	}
+
+	return new WP_Error( 'dni_format', __( 'El DNI debe tener 7 u 8 dígitos, o el CUIT debe tener 11 dígitos válidos.', 'franco-theme' ) );
+}
+
 function franco_wc_add_dni_checkout_field( $fields ) {
 	$fields['billing']['billing_dni'] = array(
 		'type'        => 'text',
 		'label'       => __( 'DNI / CUIT', 'franco-theme' ),
-		'placeholder' => __( '38.123.456', 'franco-theme' ),
+		'placeholder' => __( 'Ej: 38.123.456', 'franco-theme' ),
 		'required'    => true,
 		'class'       => array( 'form-row-wide' ),
 		'priority'    => 25,
@@ -26,22 +73,38 @@ function franco_wc_add_dni_checkout_field( $fields ) {
 }
 add_filter( 'woocommerce_checkout_fields', 'franco_wc_add_dni_checkout_field' );
 
-// Validate DNI/CUIT field
+// Validate DNI/CUIT field in checkout
 function franco_wc_validate_dni_checkout_field() {
-	if ( isset( $_POST['billing_dni'] ) && empty( sanitize_text_field( $_POST['billing_dni'] ) ) ) {
-		wc_add_notice( __( 'Por favor ingresa tu DNI / CUIT.', 'franco-theme' ), 'error' );
+	$raw = isset( $_POST['billing_dni'] ) ? sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) ) : '';
+	$valid = franco_validate_dni_cuit( $raw );
+	if ( is_wp_error( $valid ) ) {
+		wc_add_notice( $valid->get_error_message(), 'error' );
 	}
 }
 add_action( 'woocommerce_checkout_process', 'franco_wc_validate_dni_checkout_field' );
 
+// Validate DNI/CUIT field in Account Details
+function franco_wc_validate_dni_account_details( $errors, $user, $old_user_data ) {
+	if ( isset( $_POST['billing_dni'] ) ) {
+		$raw = sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) );
+		if ( '' !== $raw ) {
+			$valid = franco_validate_dni_cuit( $raw );
+			if ( is_wp_error( $valid ) ) {
+				$errors->add( 'billing_dni_error', $valid->get_error_message() );
+			}
+		}
+	}
+}
+add_action( 'woocommerce_save_account_details_errors', 'franco_wc_validate_dni_account_details', 10, 3 );
+
 // Save DNI/CUIT field to Order Meta and Customer User Meta
 function franco_wc_save_dni_checkout_field( $order, $data ) {
 	if ( ! empty( $_POST['billing_dni'] ) ) {
-		$dni = sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) );
-		$order->update_meta_data( '_billing_dni', $dni );
+		$clean = franco_clean_dni_cuit( sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) ) );
+		$order->update_meta_data( '_billing_dni', $clean );
 		$user_id = $order->get_customer_id();
 		if ( $user_id ) {
-			update_user_meta( $user_id, 'billing_dni', $dni );
+			update_user_meta( $user_id, 'billing_dni', $clean );
 		}
 	}
 }
@@ -50,16 +113,20 @@ add_action( 'woocommerce_checkout_create_order', 'franco_wc_save_dni_checkout_fi
 // Save DNI/CUIT when customer updates account details
 function franco_wc_save_dni_account_details( $user_id ) {
 	if ( isset( $_POST['billing_dni'] ) ) {
-		update_user_meta( $user_id, 'billing_dni', sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) ) );
+		$clean = franco_clean_dni_cuit( sanitize_text_field( wp_unslash( $_POST['billing_dni'] ) ) );
+		update_user_meta( $user_id, 'billing_dni', $clean );
 	}
 }
 add_action( 'woocommerce_save_account_details', 'franco_wc_save_dni_account_details', 10, 1 );
 
-// Display DNI in WP Admin -> WooCommerce -> Orders
+// Display DNI in WP Admin -> WooCommerce -> Orders (only for users with edit_shop_orders capability)
 function franco_wc_display_dni_in_admin_order( $order ) {
+	if ( ! current_user_can( 'edit_shop_orders' ) && ! current_user_can( 'manage_woocommerce' ) ) {
+		return;
+	}
 	$dni = $order->get_meta( '_billing_dni' );
 	if ( $dni ) {
-		echo '<p><strong>' . esc_html__( 'DNI / CUIT:', 'franco-theme' ) . '</strong> ' . esc_html( $dni ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'DNI / CUIT:', 'franco-theme' ) . '</strong> ' . esc_html( franco_format_dni_cuit( $dni ) ) . '</p>';
 	}
 }
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'franco_wc_display_dni_in_admin_order', 10, 1 );
@@ -68,10 +135,86 @@ add_action( 'woocommerce_admin_order_data_after_billing_address', 'franco_wc_dis
 function franco_wc_display_dni_in_emails( $order, $sent_to_admin, $plain_text, $email ) {
 	$dni = $order->get_meta( '_billing_dni' );
 	if ( $dni ) {
-		echo '<p><strong>' . esc_html__( 'DNI / CUIT:', 'franco-theme' ) . '</strong> ' . esc_html( $dni ) . '</p>';
+		echo '<p><strong>' . esc_html__( 'DNI / CUIT:', 'franco-theme' ) . '</strong> ' . esc_html( franco_format_dni_cuit( $dni ) ) . '</p>';
 	}
 }
 add_action( 'woocommerce_email_customer_details', 'franco_wc_display_dni_in_emails', 15, 4 );
+
+// Privacy: WP Personal Data Exporter for DNI
+function franco_register_privacy_exporters( $exporters ) {
+	$exporters['franco-theme-dni'] = array(
+		'exporter_friendly_name' => __( 'DNI / CUIT (Franco Theme)', 'franco-theme' ),
+		'callback'               => 'franco_privacy_dni_exporter',
+	);
+	return $exporters;
+}
+add_filter( 'wp_privacy_personal_data_exporters', 'franco_register_privacy_exporters' );
+
+function franco_privacy_dni_exporter( $email_address, $page = 1 ) {
+	$user = get_user_by( 'email', $email_address );
+	$data_to_export = array();
+
+	if ( $user instanceof WP_User ) {
+		$dni = get_user_meta( $user->ID, 'billing_dni', true );
+		if ( $dni ) {
+			$data_to_export[] = array(
+				'group_id'    => 'user_profile',
+				'group_label' => __( 'Perfil de Usuario', 'franco-theme' ),
+				'item_id'     => "user-dni-{$user->ID}",
+				'data'        => array(
+					array(
+						'name'  => __( 'DNI / CUIT', 'franco-theme' ),
+						'value' => franco_format_dni_cuit( $dni ),
+					),
+				),
+			);
+		}
+	}
+
+	return array(
+		'data' => $data_to_export,
+		'done' => true,
+	);
+}
+
+// Privacy: WP Personal Data Eraser for DNI
+function franco_register_privacy_erasers( $erasers ) {
+	$erasers['franco-theme-dni'] = array(
+		'eraser_friendly_name' => __( 'DNI / CUIT (Franco Theme)', 'franco-theme' ),
+		'callback'             => 'franco_privacy_dni_eraser',
+	);
+	return $erasers;
+}
+add_filter( 'wp_privacy_personal_data_erasers', 'franco_register_privacy_erasers' );
+
+function franco_privacy_dni_eraser( $email_address, $page = 1 ) {
+	$user = get_user_by( 'email', $email_address );
+	$items_removed = 0;
+
+	if ( $user instanceof WP_User ) {
+		$dni = get_user_meta( $user->ID, 'billing_dni', true );
+		if ( $dni ) {
+			delete_user_meta( $user->ID, 'billing_dni' );
+			$items_removed = 1;
+		}
+	}
+
+	return array(
+		'items_removed'  => $items_removed,
+		'items_retained' => 0,
+		'messages'       => array(),
+		'done'           => true,
+	);
+}
+
+// Privacy: Erase DNI on WooCommerce order erasure
+function franco_wc_erase_order_dni( $order ) {
+	if ( $order instanceof WC_Order ) {
+		$order->delete_meta_data( '_billing_dni' );
+		$order->save();
+	}
+}
+add_action( 'woocommerce_privacy_before_remove_order_personal_data', 'franco_wc_erase_order_dni' );
 
 
 /**

@@ -1343,6 +1343,10 @@
         errorMsg = 'Por favor ingresá tu DNI / CUIT (Obligatorio para la factura).';
         isValid = false;
         $('input[name="billing_dni"]').focus();
+      } else if (dni.replace(/\D/g, '').length < 6 || (dni.replace(/\D/g, '').length > 8 && dni.replace(/\D/g, '').length !== 11)) {
+        errorMsg = 'Por favor ingresá un DNI (7-8 dígitos) o CUIT (11 dígitos) válido.';
+        isValid = false;
+        $('input[name="billing_dni"]').focus();
       } else if (!email || !email.includes('@')) {
         errorMsg = 'Por favor ingresá un correo electrónico válido.';
         isValid = false;
