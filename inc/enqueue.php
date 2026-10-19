@@ -30,12 +30,14 @@ function franco_enqueue_assets() {
 
 	// Interactive App JS
 	wp_enqueue_script( 'franco-app-js', FRANCO_THEME_URI . '/assets/js/app.js', array( 'jquery' ), FRANCO_THEME_VERSION, true );
+	wp_script_add_data( 'franco-app-js', 'strategy', 'defer' );
 
 	// WooCommerce Integration JS (only when WooCommerce is active)
 	if ( class_exists( 'WooCommerce' ) ) {
 		wp_enqueue_script( 'franco-woocommerce-js', FRANCO_THEME_URI . '/assets/js/franco-woocommerce.js', array( 'jquery', 'franco-app-js' ), FRANCO_THEME_VERSION, true );
+		wp_script_add_data( 'franco-woocommerce-js', 'strategy', 'defer' );
 
-		$whatsapp_number = preg_replace( '/\D/', '', (string) franco_get_setting( 'franco_whatsapp_number', '5491112345678' ) );
+		$whatsapp_number = preg_replace( '/\D/', '', (string) franco_get_setting( 'franco_whatsapp_number', '' ) );
 		$customer_postcode = ( class_exists( 'WooCommerce' ) && WC()->customer ) ? WC()->customer->get_shipping_postcode() : '';
 		if ( empty( $customer_postcode ) && ! empty( $_COOKIE['franco_postcode'] ) ) {
 			$customer_postcode = sanitize_text_field( wp_unslash( $_COOKIE['franco_postcode'] ) );
