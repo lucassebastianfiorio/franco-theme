@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-get_header( 'shop' );
-
 $cbu       = trim( (string) franco_get_setting( 'franco_bank_cbu', '' ) );
 $alias     = trim( (string) franco_get_setting( 'franco_bank_alias', '' ) );
 $bank_name = trim( (string) franco_get_setting( 'franco_bank_name', '' ) );
@@ -99,6 +97,12 @@ $show_bank_box = ( $order && 'bacs' === $order->get_payment_method() && '' !== $
 				</div>
 			</div>
 
+			<!-- WooCommerce Standard Gateway & Tracking Hooks -->
+			<div class="thankyou-gateway-output">
+				<?php do_action( 'woocommerce_thankyou_' . $order->get_payment_method(), $order->get_id() ); ?>
+				<?php do_action( 'woocommerce_thankyou', $order->get_id() ); ?>
+			</div>
+
 			<!-- Send WhatsApp Confirmation Button -->
 			<?php if ( '' !== $wa ) : ?>
 				<?php
@@ -118,6 +122,3 @@ $show_bank_box = ( $order && 'bacs' === $order->get_payment_method() && '' !== $
 		</div>
 	<?php endif; ?>
 </section>
-
-<?php
-get_footer( 'shop' );

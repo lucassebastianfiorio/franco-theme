@@ -10,8 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-get_header( 'shop' );
-
 $has_cart = ( class_exists( 'WooCommerce' ) && WC()->cart );
 $customer_postcode = ( class_exists( 'WooCommerce' ) && WC()->customer ) ? WC()->customer->get_shipping_postcode() : '';
 if ( empty( $customer_postcode ) && ! empty( $_COOKIE['franco_postcode'] ) ) {
@@ -385,6 +383,3 @@ $show_terms         = function_exists( 'wc_terms_and_conditions_checkbox_enabled
 
 	</div>
 </section>
-
-<?php
-get_footer( 'shop' );

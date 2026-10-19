@@ -30,6 +30,10 @@ while ( have_posts() ) :
 	<div class="entry-content account-page-entry">
 		<?php the_content(); ?>
 	</div>
+<?php elseif ( ( function_exists( 'franco_is_checkout_page' ) && franco_is_checkout_page() ) || ( function_exists( 'is_checkout' ) && is_checkout() ) ) : ?>
+	<div class="entry-content checkout-page-entry">
+		<?php the_content(); ?>
+	</div>
 <?php else : ?>
 <section class="section">
 	<div class="page-content-card">
